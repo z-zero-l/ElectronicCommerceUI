@@ -22,4 +22,17 @@ import router from "./router";
 import { createPinia } from "pinia";
 const pinia = createPinia();
 
+// 引入bootstrap CSS
+import "@/assets/css/bootstrap.min.css";
+// 引入Font-Awesome CSS
+import "@/assets/css/font-awesome.min.css";
+// 引入IonIcon CSS
+import "@/assets/css/ionicons.min.css";
+// 引入helper class CSS
+import "@/assets/css/helper.min.css";
+// 引入Plugins CSS
+import "@/assets/css/plugins.css";
+// 引入Main Style CSS
+import "@/assets/css/style.css";
+
 app.use(VueAxios, axios).use(router).use(pinia).mount("#app");
