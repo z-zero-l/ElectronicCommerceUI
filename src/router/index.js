@@ -5,7 +5,7 @@ export const router = createRouter({
   routes: [
     // 首页
     {
-      path: "/",
+      path: "/aa",
       name: "index",
       component: () => import("@/views/index/index.vue"),
     },
@@ -65,7 +65,7 @@ export const router = createRouter({
     },
     // 收藏
     {
-      path: "/collect",
+      path: "/",
       name: "collect",
       component: () => import("@/views/collect/collect.vue"),
     },
