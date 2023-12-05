@@ -5,18 +5,18 @@ export const router = createRouter({
   routes: [
     // 首页
     {
-      path: "/aa",
+      path: "/",
       name: "index",
       component: () => import("@/views/index/index.vue"),
     },
-    {
-      path: "/index",
-      name: "index",
-      redirect: "/",
-    },
+    // {
+    //   path: "/index",
+    //   name: "index",
+    //   redirect: "/",
+    // },
     // 登录注册忘记密码
     {
-      path: "/",
+      path: "/login",
       name: "login",
       component: () => import("@/views/login/login.vue"),
     },
