@@ -1,22 +1,22 @@
 <script setup>
-// <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
 </script>
 
 <template>
   <!-- page main wrapper start -->
   <main>
     <!-- login register wrapper start -->
-    <div class="login-register-wrapper pt-100 pb-100 pt-sm-58 pb-sm-58">
+    <div class="login-register-wrapper pt-100  pt-sm-58 pb-sm-58">
       <div class="container">
         <div class="member-area-from-wrap">
           <div class="row">
             <!-- Login Content Start -->
-            <div class="col-lg-6">
-              <div class="login-reg-form-wrap  pr-lg-50">
-                <h2>Sign In</h2>
+            <div class="col-lg-6 mx-auto my-5">
+              <div class="login-reg-form-wrap pr-lg-50 shadow-lg rounded rounded-3">
+                <h2>Sign in <a href="#" class="forget-pwd fs-6 float-end">Register<i
+                      class="bi bi-arrow-right-short"></i></a></h2>
                 <form action="#" method="post">
                   <div class="single-input-item">
-                    <input type="email" placeholder="Email or Username" required />
+                    <input placeholder="Enter your Username" required />
                   </div>
                   <div class="single-input-item">
                     <input type="password" placeholder="Enter your Password" required />

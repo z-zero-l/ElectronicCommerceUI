@@ -5,7 +5,7 @@ export const router = createRouter({
   routes: [
     // 首页
     {
-      path: "/",
+      path: "/aa",
       name: "index",
       component: () => import("@/views/index/index.vue"),
     },
@@ -16,7 +16,7 @@ export const router = createRouter({
     },
     // 登录注册忘记密码
     {
-      path: "/login",
+      path: "/",
       name: "login",
       component: () => import("@/views/login/login.vue"),
     },
