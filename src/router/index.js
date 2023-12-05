@@ -5,15 +5,10 @@ export const router = createRouter({
   routes: [
     // 首页
     {
-      path: "/aa",
+      path: "/",
       name: "index",
       component: () => import("@/views/index/index.vue"),
     },
-    // {
-    //   path: "/index",
-    //   name: "index",
-    //   redirect: "/",
-    // },
     // 登录注册忘记密码
     {
       path: "/login",
@@ -46,16 +41,11 @@ export const router = createRouter({
     {
       path: "/order",
       name: "order",
-      children: [
-        {
-          path: "",
-          component: () => import("@/views/order/order.vue"),
-        },
-        {
-          path: "/info",
-          component: () => import("@/views/order/orderInfo.vue"),
-        },
-      ],
+      component: () => import("@/views/order/order.vue"),
+    },
+    {
+      path: "/order/info",
+      component: () => import("@/views/order/orderInfo.vue"),
     },
     // 地址
     {
@@ -65,7 +55,7 @@ export const router = createRouter({
     },
     // 收藏
     {
-      path: "/",
+      path: "/collect",
       name: "collect",
       component: () => import("@/views/collect/collect.vue"),
     },

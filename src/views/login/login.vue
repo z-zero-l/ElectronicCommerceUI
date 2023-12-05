@@ -12,11 +12,11 @@
             <!-- Login Content Start -->
             <div class="col-lg-6 mx-auto my-5">
               <div class="login-reg-form-wrap pr-lg-50 shadow-lg rounded rounded-3">
-                <h2>Sign in <a href="#" class="forget-pwd fs-6 float-end">Register<i
-                      class="bi bi-arrow-right-short"></i></a></h2>
+                <h2>Sign in <router-link to="/register"><a href="#" class="forget-pwd fs-6 float-end">Register<i
+                      class="bi bi-arrow-right-short"></i></a></router-link></h2>
                 <form action="#" method="post">
                   <div class="single-input-item">
-                    <input placeholder="Enter your Username" required />
+                    <input placeholder="Enter your Account" required />
                   </div>
                   <div class="single-input-item">
                     <input type="password" placeholder="Enter your Password" required />
@@ -29,7 +29,7 @@
                           <label class="custom-control-label" for="rememberMe">Remember Me</label>
                         </div>
                       </div>
-                      <a href="#" class="forget-pwd">Forget Password?</a>
+                      <router-link to="/forget"><a href="#" class="forget-pwd">Forget Password?</a></router-link>
                     </div>
                   </div>
                   <div class="single-input-item">

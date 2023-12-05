@@ -1,6 +1,40 @@
 <script setup>
+// 组件引入
 import ProductItem from "@/components/product/productItem.vue"
 import Carousel from "@/components/carousel/carousel.vue"
+// 
+import service from '@/utils/request.js'
+import { ref, onMounted,reactive } from 'vue'
+
+// 初始化后执行
+onMounted(() => {
+  selectProductList()
+  selectCarouselList()
+})
+
+// 获取轮播图列表
+const carouselList = ref([])
+const selectCarouselList = async () => {
+  await service.get('carousel/list').then((res) => {
+    carouselList.value = res.data
+    console.log(carouselList.value)
+  }
+  )
+}
+
+// 获取商品列表
+const productList = ref([])
+const row=ref(0)
+const selectProductList = async () => {
+  await service.get('product/list').then((res) => {
+    console.log(res.data)
+    productList.value = reactive(res.data)
+    console.log(productList.value)
+    row.value=parseInt(productList.value.length/4)
+  }
+  )
+}
+
 </script>
 
 <template>
@@ -45,7 +79,7 @@ import Carousel from "@/components/carousel/carousel.vue"
   <div class="page-section pt-100 pb-14 pt-sm-60 pb-sm-0">
     <div class="container">
 
-      <div class="row product-carousel-one spt slick-arrow-style" data-row="2" v-for="item in 4">
+      <div class="row product-carousel-one spt slick-arrow-style" data-row="2" v-for="r in row">
         <ProductItem v-for="item in 4"></ProductItem>
       </div>
     </div>

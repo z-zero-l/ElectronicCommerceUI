@@ -10,9 +10,11 @@
         <div class="row align-items-center">
           <div class="col-lg-3 col-md-6 col-6">
             <div class="logo">
-              <a href="index.html">
-                <img src="@/assets/img/logo/logo.png" alt="Brand logo">
-              </a>
+              <router-link to="/">
+                <a href="#">
+                  <img src="@/assets/img/logo/logo.png" alt="Brand logo">
+                </a>
+              </router-link>
             </div>
           </div>
           <div class="col-lg-6 d-none d-lg-block">
@@ -20,8 +22,9 @@
               <div class="main-menu">
                 <nav id="mobile-menu">
                   <ul>
-                    <li class="active"><a href="#">首 页 <i class="bi bi-house-door-fill"></i></a>
-                    </li>
+                    <router-link to="/">
+                      <li class="active"><a href="#">首 页 <i class="bi bi-house-door-fill"></i></a></li>
+                    </router-link>
                     <li class="static"><a href="#">分 类 <i class="bi bi-caret-down-fill"></i></a>
                       <!-- <li class="static"><a href="#">分 类 <i class="bi bi-caret-down"></i></a> -->
                       <!-- <li class="static"><a href="#">分 类 <i class="bi bi-chevron-down"></i></a> -->
@@ -66,12 +69,17 @@
                         </li>
                       </ul>
                     </li>
-                    <li><a href="#">购物车 <i class="bi bi-cart4"></i></a>
-                      <!-- <li><a href="#">购物车 <i class="bi bi-cart"></i></a> -->
-                      
-                    </li>
-                    <li><a href="#">收 藏 <i class="bi bi-calendar-heart"></i></a></li>
-                    <li><a href="contact-us.html">订 单<i class="bi bi-list"></i></a></li>
+                    <router-link to="/cart">
+                      <li><a href="#">购物车 <i class="bi bi-cart4"></i></a>
+                        <!-- <li><a href="#">购物车 <i class="bi bi-cart"></i></a> -->
+                      </li>
+                    </router-link>
+                    <router-link to="/collect">
+                      <li><a href="#">收 藏 <i class="bi bi-calendar-heart"></i></a></li>
+                    </router-link>
+                    <router-link to="/order">
+                      <li><a href="contact-us.html">订 单<i class="bi bi-list"></i></a></li>
+                    </router-link>
                   </ul>
                 </nav>
               </div>
@@ -89,11 +97,23 @@
                 </div>
               </div> -->
               <div class="settings-top">
-                <div class="settings-btn">
-                  <i class="ion-android-settings"></i>
-                </div>
-
+                <router-link to="/address">
+                  <div class="settings-btn">
+                    <i class="ion-android-settings"></i>
+                  </div>
+                </router-link>
               </div>
+                <div class="ms-3">
+                  <div v-if="true" class="justify-content-center bg-danger">
+                    <router-link to="/login">
+                      <a href="#" class="forget-pwd fs-6 bg-warning">Sign in<i class="bi bi-arrow-right-short"></i></a>
+                    </router-link>
+                  </div>
+                  <div v-else>
+                    <router-link to="/info"><img src="@/assets/img/logo/logo-mini.png" class="img-thumbnail rounded-5"
+                        style="height: 40px; width: 40px;"></router-link>
+                  </div>
+                </div>
             </div>
           </div>
           <div class="col-12 d-block d-lg-none">
