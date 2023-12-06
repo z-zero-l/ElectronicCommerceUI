@@ -1,26 +1,16 @@
 <script setup>
+import { defineProps } from 'vue'
+const props = defineProps({ carouselList: Array })
 </script>
 
 <template>
   <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-        aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-        aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-        aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" :data-bs-slide-to="index" :class="index===0?'active':''"  :aria-current="index===0?'true':'false'" v-for="(item,index) in props.carouselList"></button>
     </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="@/assets/img/slider/slide-1.jpg" class="d-block w-100" alt="...">
-
-      </div>
-      <div class="carousel-item">
-        <img src="@/assets/img/slider/slide-2.jpg" class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img src="@/assets/img/slider/slide-3.jpg" class="d-block w-100" alt="...">
+    <div class="carousel-inner" v-for="(item,index) in props.carouselList">
+      <div class="carousel-item" :class="index===0?'active':''">
+        <img :src="item.imgUrl" class="d-block w-100">
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -32,7 +22,6 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-
 </template>
 
 <style scoped></style>

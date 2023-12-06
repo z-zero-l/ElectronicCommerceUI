@@ -23,7 +23,8 @@
                 <nav id="mobile-menu">
                   <ul>
                     <router-link to="/">
-                      <li class="active"><a href="#">首 页 <i class="bi bi-house-door-fill"></i></a></li>
+                      <li class="active"><a href="#">首 页 <i class="bi bi-house-door-fill"></i></a>
+                      </li>
                     </router-link>
                     <li class="static"><a href="#">分 类 <i class="bi bi-caret-down-fill"></i></a>
                       <!-- <li class="static"><a href="#">分 类 <i class="bi bi-caret-down"></i></a> -->
@@ -103,6 +104,9 @@
                   </div>
                 </router-link>
               </div>
+              <div class="ms-3">
+                <img src="@/assets/img/logo/logo-mini.png" class="img-thumbnail rounded-5" style="width: 40px;height: 40px; ">
+              </div>
                 <div class="ms-3">
                   <div v-if="true" class="justify-content-center bg-danger">
                     <router-link to="/login">
@@ -125,7 +129,7 @@
     <!-- main menu area end -->
 
     <!-- Start Search Popup -->
-    <div class="box-search-content search_active block-bg close__top">
+    <!-- <div class="box-search-content search_active block-bg close__top">
       <form class="minisearch" action="#">
         <div class="field__search">
           <input type="text" placeholder="Search Our Catalog">
@@ -137,7 +141,7 @@
       <div class="close__wrap">
         <span>close</span>
       </div>
-    </div>
+    </div> -->
     <!-- End Search Popup -->
 
   </header>

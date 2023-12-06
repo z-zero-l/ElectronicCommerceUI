@@ -37,9 +37,9 @@
               </div>
               <div class="footer-widget-body">
                 <ul class="useful-link">
+                  <li><a href="#">官方客服</a></li>
                   <li><a href="#">联系我们</a></li>
                   <li><a href="#">关于我们</a></li>
-                  <li><a href="#">官方客服</a></li>
                 </ul>
               </div>
             </div>

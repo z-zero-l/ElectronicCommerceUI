@@ -34,5 +34,7 @@ import "@/assets/css/helper.min.css";
 import "@/assets/css/plugins.css";
 // 引入Main Style CSS
 import "@/assets/css/style.css";
+// 导入图标
+import "@/assets/img/favicon.ico";
 
 app.use(VueAxios, axios).use(router).use(pinia).mount("#app");

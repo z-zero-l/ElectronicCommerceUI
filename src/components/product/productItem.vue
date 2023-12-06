@@ -1,4 +1,6 @@
 <script setup>
+import { defineProps } from 'vue'
+const props = defineProps({ productItem: Object })
 </script>
 
 <template>
@@ -37,11 +39,10 @@
         <div class="product-btn">
           <a href="#"><i class="ion-bag"></i>Add to cart</a>
         </div>
-        
+
       </div>
     </div>
   </div>
-
 </template>
 
 <style scoped></style>
