@@ -1,22 +1,33 @@
 <script setup>
 import { defineProps } from 'vue'
 const props = defineProps({ productItem: Object })
+console.log(props.productItem)
 </script>
 
 <template>
   <div class="col">
     <div class="product-item mb-20">
       <div class="product-thumb">
-        <a href="product-details.html">
-          <img src="@/assets/img/product/product-1.jpg" alt="product image">
+        <div class="product-img">
+          <a href="product-details.html">
+          <img :src="props.productItem.productCover" alt="product image" class="obj-fit w-75 h-75">
         </a>
+        </div>
         <div class="box-label">
-          <div class="product-label new">
+          <div class="product-label freight" v-if="props.productItem.freight===0.0">
+            <span>Free Shipping</span>
+          </div>
+          <div class="product-label new" v-if="props.productItem.createTime">
+          <!-- <div class="product-label new"> -->
             <span>new</span>
           </div>
           <div class="product-label discount">
-            <span>-5%</span>
+          <!-- <div class="product-label discount" v-if="props.productItem.isHot"> -->
+            <span>Hot</span>
           </div>
+          <!-- <div class="product-label bg-warning">
+            <span>Sale</span>
+          </div> -->
         </div>
         <div class="product-action-link">
           <a href="#" data-toggle="modal" data-target="#quick_view"> <span data-toggle="tooltip" data-placement="left"
@@ -27,22 +38,33 @@ const props = defineProps({ productItem: Object })
       </div>
       <div class="product-description text-center">
         <div class="manufacturer">
-          <p><a href="product-details.html">Fashion Manufacturer</a></p>
+          <p><a href="product-details.html">props.productItem.businessName</a></p>
         </div>
         <div class="product-name">
-          <h3><a href="product-details.html">Endeavor Daytrip</a></h3>
+          <h3><a href="product-details.html">{{props.productItem.productName}}</a></h3>
         </div>
         <div class="price-box">
-          <span class="regular-price">$100.00</span>
-          <span class="old-price"><del>$120.00</del></span>
+          <span class="regular-price">￥100.00</span>
+          <span class="old-price">10000+人付款</span>
         </div>
-        <div class="product-btn">
-          <a href="#"><i class="ion-bag"></i>Add to cart</a>
-        </div>
-
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.obj-fit{
+  object-fit: cover;
+
+
+
+
+
+
+
+
+
+
+
+
+}</style>

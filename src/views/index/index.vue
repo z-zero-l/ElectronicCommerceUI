@@ -19,7 +19,6 @@ const carouselList = ref([]);
 const selectCarouselList = async () => {
   service.get("carousel/list").then((res) => {
     carouselList.value = res.data;
-    console.log(carouselList.value);
   });
 };
 
@@ -28,18 +27,23 @@ const productList = ref([]);
 const selectProductList = async () => {
   service.get("product/list").then((res) => {
     productList.value = res.data;
-    console.log(productList.value.length);
+    console.log(productList.value);
   });
 };
 
-const productListTest=productList.value.splice(0,4)
+let productRowList = ref([]);
+function getProductRowList(r) {
+  productRowList.value = productList.value.slice(4 * (r-1), 4 * (r-1) + 4);
+  console.log( productRowList.value)
+  return productRowList.value
+}
 </script>
 
 <template>
   <!-- slider area start -->
   <Carousel :carouselList="carouselList"></Carousel>
   <!-- slider area end -->
-  <!-- banner statistics 01 start -->
+  <!-- banner statistics start -->
   <div class="banner-statistic-one bg-gray pt-100 pb-100 pt-sm-58 pb-sm-58">
     <div class="container">
       <div class="row">
@@ -72,12 +76,14 @@ const productListTest=productList.value.splice(0,4)
       </div>
     </div>
   </div>
-  <!-- banner statistics 01 end -->
+  <!-- banner statistics end -->
+
   <div class="page-section pt-100 pb-14 pt-sm-60 pb-sm-0">
     <div class="container">
-      <div class="row product-carousel-one spt slick-arrow-style" v-for="r in parseInt(productList.length / rowItemSize)">
-        <!-- <ProductItem v-for="i in rowItemSize" :productItem="productList.value[rowItemSize*4+i]"></ProductItem> -->
-        <ProductItem v-for="i in rowItemSize" :productItem="productListTest"></ProductItem>
+      <div class="row product-carousel-one spt slick-arrow-style" v-for="r in parseInt(productList.length / rowItemSize)" :key="r">
+        <template v-for="item in getProductRowList(r)" :key="item.productId">
+          <ProductItem :productItem="item"></ProductItem>
+        </template>
       </div>
     </div>
   </div>

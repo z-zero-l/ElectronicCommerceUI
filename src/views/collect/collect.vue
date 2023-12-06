@@ -10,7 +10,7 @@ import CollectItem from "@/components/product/collectItem.vue"
             <!-- single sidebar start -->
             <div class="sidebar-single">
               <div class="sidebar-title">
-                <h3>shop</h3>
+                <h3>Category</h3>
               </div>
               <div class="sidebar-body">
                 <ul class="sidebar-category">
