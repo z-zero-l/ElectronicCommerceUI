@@ -1562,6 +1562,17 @@ only screen and (max-width: 767px) {
     display: inline-block;
 }
 
+.sqr-btn-f {
+    color: #ff7e67;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    background-color: #ffffff;
+    padding: 10px 20px 6px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
 .sqr-btn:hover {
     color: #ffffff;
     background-color: #333c4a;
