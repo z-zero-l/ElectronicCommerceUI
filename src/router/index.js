@@ -4,7 +4,7 @@ export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     // 默认路径重定向至首页
-    { path: "/", redirect: "/info" },
+    { path: "/", redirect: "/index" },
     // 首页
     {
       path: "/index",
