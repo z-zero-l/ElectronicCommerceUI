@@ -1,11 +1,23 @@
 <script setup>
+import { onMounted, ref } from "vue";
+const isSticky = ref(false);
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+const handleScroll = () => {
+  const scroll = window.scrollY || window.pageYOffset;
+  // 根据滚动高度判断是否添加或移除样式
+  isSticky.value = scroll >= 300;
+};
 </script>
 
 <template>
   <!-- header area start -->
   <header>
     <!-- main menu area start -->
-    <div class="header-main transparent-menu sticky">
+    <div class="header-main transparent-menu sticky" :class="{ 'is-sticky': isSticky }">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-3 col-md-6 col-6">
@@ -89,35 +101,20 @@
           <div class="col-lg-3 col-md-6 col-6 ml-auto">
             <div class="header-setting-option">
               <div class="search-wrap">
-                <button type="submit" class="search-trigger"><i class="ion-ios-search-strong"></i></button>
+                <button type="submit" class="search-trigger"><i class="ion-ios-search-strong"></i>
+                </button>
               </div>
               <!-- <div class="header-mini-cart">
-                <div class="mini-cart-btn">
-                  <i class="ion-bag"></i>
-                  <span class="cart-notification">2</span>
-                </div>
-              </div> -->
+							  <div class="mini-cart-btn">
+								<i class="ion-bag"></i>
+								<span class="cart-notification">2</span>
+							  </div>
+							</div> -->
               <div class="settings-top">
-                <router-link to="/address">
-                  <div class="settings-btn">
-                    <i class="ion-android-settings"></i>
-                  </div>
-                </router-link>
-              </div>
-              <div class="ms-3">
-                <img src="@/assets/img/logo/logo-mini.png" class="img-thumbnail rounded-5" style="width: 40px;height: 40px; ">
-              </div>
-                <div class="ms-3">
-                  <div v-if="true" class="justify-content-center bg-danger">
-                    <router-link to="/login">
-                      <a href="#" class="forget-pwd fs-6 bg-warning">Sign in<i class="bi bi-arrow-right-short"></i></a>
-                    </router-link>
-                  </div>
-                  <div v-else>
-                    <router-link to="/info"><img src="@/assets/img/logo/logo-mini.png" class="img-thumbnail rounded-5"
-                        style="height: 40px; width: 40px;"></router-link>
-                  </div>
+                <div class="settings-btn">
+                  <i class="ion-android-settings"></i>
                 </div>
+              </div>
             </div>
           </div>
           <div class="col-12 d-block d-lg-none">
