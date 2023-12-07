@@ -2,9 +2,6 @@ import { createApp } from "vue";
 import App from "./App.vue";
 const app = createApp(App);
 
-// 引入css文件
-// import "./style.css";
-
 // 引入scss文件
 import "./assets/style.scss";
 // 引入bootstrap

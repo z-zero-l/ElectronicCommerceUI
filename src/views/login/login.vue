@@ -8,7 +8,6 @@ const login = async () => {
   service.post("user/login", {
     account: account.value,
     password: password.value
-
   }).then((res) => {
     console.log("res:" + res)
     console.log("登录成功")
@@ -39,18 +38,8 @@ const login = async () => {
                     <input type="password" v-model="password" placeholder="Enter your Password" required />
                   </div>
                   <div class="single-input-item">
-                    <div class="login-reg-form-meta d-flex align-items-center justify-content-between">
-                      <div class="remember-meta">
-                        <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="rememberMe">
-                          <label class="custom-control-label" for="rememberMe">Remember Me</label>
-                        </div>
-                      </div>
-                      <router-link to="/forget"><a href="#" class="forget-pwd">Forget Password?</a></router-link>
-                    </div>
-                  </div>
-                  <div class="single-input-item">
-                    <button class="sqr-btn" @click="login()">Login</button>
+                    <button class="sqr-btn mt-20" @click="login()">Login</button>
+                    <router-link to="/forget"><a href="#" class="forget-pwd" style="float: right;">Forget Password?</a></router-link>
                   </div>
                 </form>
               </div>

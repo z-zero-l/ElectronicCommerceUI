@@ -15,7 +15,7 @@ const register = async () => {
     confirmPassword: confirmPassword.value,
   }).then((res) => {
     console.log(res.data)
-    router.push({ path: 'login' })
+    router.push({ path: '/login' })
   });
 };
 </script>
