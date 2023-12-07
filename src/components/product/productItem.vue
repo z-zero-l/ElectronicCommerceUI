@@ -17,17 +17,18 @@ console.log(props.productItem)
           <div class="product-label freight" v-if="props.productItem.freight===0.0">
             <span>Free Shipping</span>
           </div>
-          <div class="product-label new" v-if="props.productItem.createTime">
-          <!-- <div class="product-label new"> -->
+          <div class="product-label new" >
+          <!-- <div class="product-label new" v-if="props.productItem.isNew"> -->
             <span>new</span>
           </div>
           <div class="product-label discount">
           <!-- <div class="product-label discount" v-if="props.productItem.isHot"> -->
             <span>Hot</span>
           </div>
-          <!-- <div class="product-label bg-warning">
+          <!-- <div class="product-label bg-warning"  v-if="props.productItem.isSale"> -->
+          <div class="product-label bg-warning">
             <span>Sale</span>
-          </div> -->
+          </div>
         </div>
         <div class="product-action-link">
           <a href="#" data-toggle="modal" data-target="#quick_view"> <span data-toggle="tooltip" data-placement="left"

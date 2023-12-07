@@ -6,7 +6,7 @@ import ProductItem from "@/components/product/productItem.vue";
 import Carousel from "@/components/carousel/carousel.vue";
 
 // 每行展示商品数
-const rowItemSize = ref(4)
+const rowItemSize = ref(4);
 
 // 初始化后执行
 onMounted(() => {
@@ -33,9 +33,9 @@ const selectProductList = async () => {
 
 let productRowList = ref([]);
 function getProductRowList(r) {
-  productRowList.value = productList.value.slice(4 * (r-1), 4 * (r-1) + 4);
-  console.log( productRowList.value)
-  return productRowList.value
+  productRowList.value = productList.value.slice(4 * (r - 1), 4 * (r - 1) + 4);
+  console.log(productRowList.value);
+  return productRowList.value;
 }
 </script>
 
@@ -43,50 +43,30 @@ function getProductRowList(r) {
   <!-- slider area start -->
   <Carousel :carouselList="carouselList"></Carousel>
   <!-- slider area end -->
-  <!-- banner statistics start -->
-  <div class="banner-statistic-one bg-gray pt-100 pb-100 pt-sm-58 pb-sm-58">
+
+  <!-- featured product area start -->
+  <div class="page-section pt-100 pb-14 pt-sm-60 pb-sm-0">
     <div class="container">
       <div class="row">
-        <div class="col1 col-sm-6">
-          <div class="img-container img-full fix">
-            <a href="#">
-              <img src="@/assets/img/banner/banner-1.jpg" alt="banner image" />
-            </a>
-          </div>
-        </div>
-        <div class="col2 col-sm-6">
-          <div class="img-container img-full fix">
-            <a href="#">
-              <img src="@/assets/img/banner/banner-2.jpg" alt="banner image" />
-            </a>
-          </div>
-        </div>
-        <div class="col3 col">
-          <div class="img-container img-full fix mb-30">
-            <a href="#">
-              <img src="@/assets/img/banner/banner-3.jpg" alt="banner image" />
-            </a>
-          </div>
-          <div class="img-container img-full fix">
-            <a href="#">
-              <img src="@/assets/img/banner/banner-4.jpg" alt="banner image" />
-            </a>
+        <div class="col-12">
+          <div class="section-title text-center pb-44">
+            <p>The latest featured products</p>
+            <h2>Featured products</h2>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- banner statistics end -->
-
-  <div class="page-section pt-100 pb-14 pt-sm-60 pb-sm-0">
-    <div class="container">
-      <div class="row product-carousel-one spt slick-arrow-style" v-for="r in parseInt(productList.length / rowItemSize)" :key="r">
+      <div
+        class="row product-carousel-one spt slick-arrow-style"
+        v-for="r in parseInt(productList.length / rowItemSize)"
+        :key="r"
+      >
         <template v-for="item in getProductRowList(r)" :key="item.productId">
           <ProductItem :productItem="item"></ProductItem>
         </template>
       </div>
     </div>
   </div>
+  <!-- featured product area end -->
 </template>
 
 <style scoped></style>
