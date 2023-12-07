@@ -1,7 +1,6 @@
 <script setup>
 import { defineProps } from 'vue'
 const props = defineProps({ productItem: Object })
-console.log(props.productItem)
 </script>
 
 <template>
@@ -56,6 +55,7 @@ console.log(props.productItem)
 <style scoped>
 .obj-fit{
   object-fit: cover;
+
 
 
 

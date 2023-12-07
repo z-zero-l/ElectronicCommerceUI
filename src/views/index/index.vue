@@ -27,14 +27,12 @@ const productList = ref([]);
 const selectProductList = async () => {
   service.get("product/list").then((res) => {
     productList.value = res.data;
-    console.log(productList.value);
   });
 };
 
 let productRowList = ref([]);
 function getProductRowList(r) {
   productRowList.value = productList.value.slice(4 * (r - 1), 4 * (r - 1) + 4);
-  console.log(productRowList.value);
   return productRowList.value;
 }
 </script>
