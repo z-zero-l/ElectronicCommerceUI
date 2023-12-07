@@ -3,9 +3,11 @@ import { createRouter, createWebHashHistory } from "vue-router";
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
+    // 默认路径重定向至首页
+    { path: "/", redirect: "/index" },
     // 首页
     {
-      path: "/",
+      path: "/index",
       name: "index",
       component: () => import("@/views/index/index.vue"),
     },
