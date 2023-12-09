@@ -1,4 +1,36 @@
-<script setup></script>
+<script setup>
+import service from "@/utils/request.js";
+import { onMounted, ref } from "vue";
+
+onMounted(() => {
+  getProfile();
+});
+
+// 获取用户信息
+const profile = ref({});
+const getProfile = async () => {
+  service.get("/user/profile").then((res) => {
+    profile.value = res.data.data;
+  });
+};
+
+// 更换头像
+const file = ref("")
+const changeAvatar= async()=>{
+  service.post("/user/profile/avatar",{
+    file:file.value
+  }).then((res)=>{
+    console.log(res.data)
+  })
+}
+
+// 选择文件弹窗控制
+const isVisible = ref(Boolean);
+isVisible.value=false
+function changeVisible(){
+  isVisible.value=!isVisible.value;
+}
+</script>
 
 <template>
   <!-- page main wrapper start -->
@@ -21,37 +53,63 @@
                           <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="user_name" class="required">用户名</label>
-                              <input type="text" id="user_name" placeholder="用户名" />
+                              <input type="text" id="user_name" placeholder="用户名" v-model="profile.userName" />
                             </div>
-                          </div>
-                          <div class="col-lg-6">
                             <div class="single-input-item">
                               <label for="account" class="required">账号</label>
-                              <input type="text" id="account" placeholder="账号" />
+                              <input type="text" id="account" placeholder="账号" v-model="profile.account" />
                             </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-6">
                             <div class="single-input-item">
-                              <label for="phone" class="">手机号</label>
-                              <input type="text" id="phone" placeholder="手机号" />
-                            </div>
-                          </div>
-                          <div class="col-lg-6">
-                            <div class="single-input-item">
-                              <label for="gender" class="">性别</label>
-                              <select class="form-select mt-0" style="height: 49px;background-color: rgb(247,247,247); border: 1px solid rgb(204,204,204); border-radius: 0;" aria-label="Default select example" >
+                              <label for="gender">性别</label>
+                              <select class="form-select mt-0" style="
+                                  height: 49px;
+                                  background-color: rgb(247, 247, 247);
+                                  border: 1px solid rgb(204, 204, 204);
+                                  border-radius: 0;
+                                " aria-label="Default select example" v-model="profile.gender">
                                 <option selected></option>
                                 <option value="1">男</option>
                                 <option value="2">女</option>
                               </select>
                             </div>
                           </div>
+                          <div class="col-lg-6">
+                            <div style="
+                                width: 25%;
+                                margin-left: 25%;
+                                margin-top: 10px;
+                              ">
+                              <div style="
+                                  padding: 100%;
+                                  height: 0;
+                                  position: relative;
+                                  cursor: pointer;
+                                " @click="changeVisible()">
+                                <img :src="profile.avatar" class="img-thumbnail" style="
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    border-radius: 50%;
+                                  " />
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div class="single-input-item">
-                          <label for="email" class="">邮箱</label>
-                          <input type="email" id="email" placeholder="邮箱" />
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="phone">手机号</label>
+                              <input type="text" id="phone" placeholder="手机号" v-model="profile.phone" />
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="single-input-item">
+                              <label for="email" class="">邮箱</label>
+                              <input type="email" id="email" placeholder="邮箱" v-model="profile.email" />
+                            </div>
+                          </div>
                         </div>
                         <fieldset>
                           <legend>详细信息</legend>
@@ -59,7 +117,7 @@
                             <div class="col-lg-6">
                               <div class="single-input-item">
                                 <label for="birthday" class="">生日</label>
-                                <input type="text" id="birthday" placeholder="生日" />
+                                <input type="text" id="birthday" placeholder="生日" v-model="profile.birthday" />
                               </div>
                             </div>
                             <div class="col-lg-6">
@@ -71,7 +129,7 @@
                           </div>
                           <div class="single-input-item">
                             <label for="profile" class="">个人简介</label>
-                            <input type="text" id="profile" placeholder="" />
+                            <input type="text" id="profile" placeholder="" v-model="profile.profile" />
                           </div>
                         </fieldset>
                         <div class="single-input-item">
@@ -89,10 +147,21 @@
         </div>
       </div>
     </div>
-
     <!-- my account wrapper end -->
   </main>
   <!-- page main wrapper end -->
+  <div class="box-search-content block-bg search_active close__top is-visible" v-show="isVisible">
+    <form class="minisearch" action="#">
+      <div class="field__search">
+        <!-- <input type="text" placeholder="Search Our Catalog"> -->
+        <input type="file" style="height: 40px; line-height: 40px" />
+        <button @click="changeAvatar()" style="background-color: #fff; margin: 5px; padding: 8px 10px; float: right;">确认上传</button>
+      </div>
+    </form>
+    <div class="close__wrap" @click="changeVisible()">
+      <span>close</span>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

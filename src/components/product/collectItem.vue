@@ -16,10 +16,6 @@
           <span>-5%</span>
         </div>
       </div>
-      <div class="product-action-link">
-        <a href="#" data-toggle="modal" data-target="#quick_view"> <span data-toggle="tooltip" data-placement="left"
-            title="Quick view"><i class="ion-ios-eye-outline"></i></span> </a>
-      </div>
     </div>
     <div class="product-list-content">
       <h4><a href="#">Fashion Manufacturer</a></h4>

@@ -5,7 +5,7 @@ import { ref } from "vue";
 const account = ref("")
 const password = ref("")
 const login = async () => {
-  service.post("user/login", {
+  service.post("/user/login", {
     account: account.value,
     password: password.value
   }).then((res) => {

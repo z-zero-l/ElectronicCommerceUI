@@ -1225,7 +1225,7 @@ only screen and (max-width: 767px) {
 /*------ header setting option start ------*/
 /*------ search wrapper start ------*/
 .block-bg {
-    background: rgba(22, 22, 27, 0.98);
+    background: rgba(22, 22, 27, 0.7);
     height: 100%;
     left: 0;
     opacity: 0;
@@ -1235,7 +1235,6 @@ only screen and (max-width: 767px) {
     -webkit-transform: scale(0.7);
     -ms-transform: scale(0.7);
     transform: scale(0.7);
-    visibility: hidden;
     width: 100%;
     z-index: 9999999;
     -webkit-transition: all 0.4s ease-out;
@@ -1245,22 +1244,21 @@ only screen and (max-width: 767px) {
 }
 
 .block-bg .minisearch .field__search {
-    left: 0;
+    left: 10%;
     margin: 0 auto auto;
     max-width: 1000px;
     position: fixed;
     right: 0;
-    top: 50%;
+    top: 45%;
 }
 
 .block-bg .minisearch .field__search input {
     color: #ffffff;
     background: transparent;
-    border-color: #ffffff;
-    border-width: 0 0 1px;
+    border-bottom:1px solid #fff;
     outline: medium none;
-    height: 60px;
     width: 100%;
+    height: 60px;
     z-index: 1;
     position: relative;
     background: transparent;
@@ -1330,7 +1328,6 @@ only screen and (max-width: 767px) {
     right: 0;
     font-size: 20px;
     vertical-align: middle;
-    content: "\f00d";
     position: absolute;
     font-family: "FontAwesome";
 }

@@ -15,16 +15,13 @@ const props = defineProps({ productItem: Object })
           <div class="product-label freight" v-if="props.productItem.freight===0.0">
             <span>Free Shipping</span>
           </div>
-          <div class="product-label new" >
-          <!-- <div class="product-label new" v-if="props.productItem.isNew"> -->
+          <div class="product-label new" v-if="props.productItem.isNew">
             <span>new</span>
           </div>
-          <div class="product-label discount">
-          <!-- <div class="product-label discount" v-if="props.productItem.isHot"> -->
+          <div class="product-label discount" v-if="props.productItem.isHot">
             <span>Hot</span>
           </div>
-          <!-- <div class="product-label bg-warning"  v-if="props.productItem.isSale"> -->
-          <div class="product-label bg-warning">
+          <div class="product-label bg-warning"  v-if="props.productItem.isSale">
             <span>Sale</span>
           </div>
         </div>
@@ -37,13 +34,13 @@ const props = defineProps({ productItem: Object })
       </div>
       <div class="product-description text-center">
         <div class="manufacturer">
-          <p><a href="product-details.html">props.productItem.businessName</a></p>
+          <p><a href="product-details.html">{{props.productItem.business}}</a></p>
         </div>
         <div class="product-name">
           <h3><a href="product-details.html">{{props.productItem.productName}}</a></h3>
         </div>
         <div class="price-box">
-          <span class="regular-price">￥100.00</span>
+          <span class="regular-price">￥{{props.productItem.price}}</span>
           <span class="old-price">10000+人付款</span>
         </div>
       </div>
@@ -54,6 +51,13 @@ const props = defineProps({ productItem: Object })
 <style scoped>
 .obj-fit{
   object-fit: cover;
+
+
+
+
+
+
+
 
 
 

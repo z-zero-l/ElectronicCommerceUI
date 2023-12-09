@@ -2,7 +2,7 @@
 import service from "@/utils/request.js";
 import { ref, onMounted } from "vue";
 // 组件引入
-import ProductItem from "@/components/product/productItem.vue";
+import IndexItem from "@/components/product/indexItem.vue";
 import Carousel from "@/components/carousel/carousel.vue";
 
 // 每行展示商品数
@@ -17,7 +17,7 @@ onMounted(() => {
 // 获取轮播图列表
 const carouselList = ref([]);
 const selectCarouselList = async () => {
-  service.get("carousel/list").then((res) => {
+  service.get("/carousel/list").then((res) => {
     carouselList.value = res.data;
   });
 };
@@ -25,8 +25,9 @@ const selectCarouselList = async () => {
 // 获取商品列表
 const productList = ref([]);
 const selectProductList = async () => {
-  service.get("product/list").then((res) => {
-    productList.value = res.data;
+  service.get("/product/indexList").then((res) => {
+    productList.value = res.data.data;
+    console.log(productList.value);
   });
 };
 
@@ -59,7 +60,7 @@ function getProductRowList(r) {
         :key="r"
       >
         <template v-for="item in getProductRowList(r)" :key="item.productId">
-          <ProductItem :productItem="item"></ProductItem>
+          <IndexItem :productItem="item"></IndexItem>
         </template>
       </div>
     </div>

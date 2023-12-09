@@ -6,6 +6,8 @@ const service = axios.create({
   timeout: 6000, // 请求超时时间
   headers: {
     "Content-Type": "application/json; charset=utf-8",
+    Authorization:
+      "eyJhbGciOiJIUzI1NiJ9.eyJleHBpcmVzIjoxMjk2MDAwLCJsb2dpbkF0IjoxNzAxOTk1NTQ0Mjc0LCJ1c2VySWQiOjEzfQ.HegfN4EeYC-onQXY5lFLvQCbXsTAiA4WaUmRpKoz0zY",
   },
 });
 
@@ -34,6 +36,7 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (response) => {
+    console.log("响应成功");
     return response;
   },
   (error) => {
@@ -46,7 +49,7 @@ service.interceptors.response.use(
           router.replace({
             path: "/login",
             //登录成功后跳入浏览的当前页面
-            // query: { redirect: router.currentRoute.fullPath },
+            query: { redirect: router.currentRoute.fullPath },
           });
           break;
       }

@@ -10,9 +10,9 @@
         <div class="member-area-from-wrap">
           <div class="row">
             <!-- Login Content Start -->
-            <div class="col-lg-7">
+            <div class="col-lg-8">
               <!-- Single Tab Content Start -->
-                <div class="myaccount-content " style="width: 530px;">
+                <div class="myaccount-content " style="width: 98%;">
                   <h3>地址列表</h3>
                   <div class="myaccount-table table-responsive text-center">
                     <table class="table table-bordered">
@@ -29,7 +29,7 @@
                           <td>张三</td>
                           <td>13323456534</td>
                           <td>江苏省南京市栖霞区</td>
-                          <td><a href="cart.html" class="check-btn sqr-btn" style=";padding: 2px ;width: 20px; height: 25px;"><i
+                          <td style="width: 50px;"><a href="cart.html" class="check-btn sqr-btn" style=";padding: 2px ;width: 20px; height: 25px;"><i
                         class="bi bi-arrow-right-short"></i></a></td>
                         </tr>
                       </tbody>
@@ -41,7 +41,7 @@
             <!-- Login Content End -->
 
             <!-- Register Content Start -->
-            <div class="col-lg-5">
+            <div class="col-lg-4">
               <div class="login-reg-form-wrap mt-md-100 mt-sm-58 " style="">
                 <h2 style="margin-top: 20px;">Form</h2>
                 <form action="#" method="post">
