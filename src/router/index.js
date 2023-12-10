@@ -4,7 +4,7 @@ export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     // 默认路径重定向至首页
-    { path: "/", redirect: "/info" },
+    { path: "/", redirect: "/index" },
     // 首页
     {
       path: "/index",
@@ -83,34 +83,34 @@ export const router = createRouter({
 });
 
 // 全局路由守卫;
-router.beforeEach((to, from, next) => {
-  const nextRoute = [
-    "info",
-    "product",
-    "category",
-    "collect",
-    "order",
-    "cart",
-    "search",
-    "address",
-  ];
-  let isLogin = localStorage.getItem("token");
-  // 未登录状态；当路由到nextRoute指定页时，跳转至login
-  if (nextRoute.indexOf(to.name) >= 0 && !isLogin) {
-    next({
-      path: "/login",
-      // 将跳转的路由path作为参数，登录成功后跳转到该路由
-      query: { redirect: to.fullPath },
-    });
-  } else {
-    next();
-  }
-  // 已登录状态；当路由到login时，跳转至home
-  if (to.name === "login") {
-    if (isLogin) {
-      router.push({ path: from.fullPath });
-    }
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   const nextRoute = [
+//     "info",
+//     "product",
+//     "category",
+//     "collect",
+//     "order",
+//     "cart",
+//     "search",
+//     "address",
+//   ];
+//   let isLogin = localStorage.getItem("token");
+//   // 未登录状态；当路由到nextRoute指定页时，跳转至login
+//   if (nextRoute.indexOf(to.name) >= 0 && !isLogin) {
+//     next({
+//       path: "/login",
+//       // 将跳转的路由path作为参数，登录成功后跳转到该路由
+//       query: { redirect: to.fullPath },
+//     });
+//   } else {
+//     next();
+//   }
+//   // 已登录状态；当路由到login时，跳转至home
+//   if (to.name === "login") {
+//     if (isLogin) {
+//       router.push({ path: from.fullPath });
+//     }
+//   }
+// });
 
 export default router;

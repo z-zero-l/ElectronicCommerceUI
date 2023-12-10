@@ -34,4 +34,15 @@ import "@/assets/css/style.css";
 // 导入图标
 import "@/assets/img/favicon.ico";
 
-app.use(VueAxios, axios).use(router).use(pinia).mount("#app");
+// 引入vuetify
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+
+const vuetify = createVuetify({
+  components,
+  directives,
+});
+
+app.use(VueAxios, axios).use(router).use(pinia).use(vuetify).mount("#app");
