@@ -40,13 +40,6 @@ function changeBirthdayPicker() {
   isBirthdayPicker.value = !isBirthdayPicker.value;
 }
 
-// 控制地区选择器展示
-const isAddressPicker = ref(Boolean);
-isAddressPicker.value = false;
-function changeAddressPicker() {
-  isAddressPicker.value = !isAddressPicker.value
-}
-
 // 修改用户信息
 const changeProfile = async () => {
   service.post("/user/profile",{

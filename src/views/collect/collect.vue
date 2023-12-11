@@ -1,6 +1,36 @@
 <script setup>
-import CollectItem from "@/components/product/collectItem.vue"
+import CollectItem from "@/components/product/collectItem.vue";
+import { ref, onMounted } from "vue";
+import service from "@/utils/request.js";
+
+onMounted(() => {
+  getCollectionList();
+  getCategoryList();
+});
+
+// 获取收藏列表
+const collectionList = ref([]);
+function getCollectionList(cateId) {
+  if (cateId == undefined) {
+    service.get("/collect/list").then((res) => {
+      collectionList.value = res.data.data;
+    });
+  } else {
+    service.get("/collect/list?categoryId=" + cateId).then((res) => {
+      collectionList.value = res.data.data;
+    });
+  }
+}
+
+// 获取分类列表
+const categoryList = ref([]);
+const getCategoryList = async () => {
+  service.get("/category/list").then((res) => {
+    categoryList.value = res.data.data;
+  });
+};
 </script>
+
 <template>
   <div class="shop-main-wrapper pt-100 pb-100 pt-sm-58 pb-sm-58">
     <div class="container mt-20">
@@ -10,39 +40,20 @@ import CollectItem from "@/components/product/collectItem.vue"
             <!-- single sidebar start -->
             <div class="sidebar-single">
               <div class="sidebar-title">
-                <h3>Category</h3>
+                <h3 @click="getCollectionList()" class="category">Category</h3>
               </div>
               <div class="sidebar-body">
                 <ul class="sidebar-category">
-                  <li><a href="#">health & beauty</a>
+                  <li v-for="item in categoryList" :key="item.categoryId">
+                    <a class="categoryTitle">{{ item.cateName }}</a>
                     <ul class="children">
-                      <li><a href="#">skateboard</a></li>
-                      <li><a href="#">surfboard</a></li>
-                      <li><a href="#">accessories</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="#">makeup</a>
-                    <ul class="children">
-                      <li><a href="#">Samsome</a></li>
-                      <li><a href="#">GL Stylus</a></li>
-                      <li><a href="#">Uawei</a></li>
-                      <li><a href="#">Cherry Berry</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="#">skincare</a>
-                    <ul class="children">
-                      <li><a href="#">Power Bank</a></li>
-                      <li><a href="#">Data Cable</a></li>
-                      <li><a href="#">Power Cable</a></li>
-                      <li><a href="#">Battery</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="#">jewelry</a>
-                    <ul class="children">
-                      <li><a href="#">Desktop Headphone</a></li>
-                      <li><a href="#">Mobile Headphone</a></li>
-                      <li><a href="#">Wireless Headphone</a></li>
-                      <li><a href="#">LED Headphone</a></li>
+                      <li
+                        class="categoryItem"
+                        v-for="i in item.childCate"
+                        @click="getCollectionList(i.categoryId)"
+                      >
+                        <a>{{ i.cateName }}</a>
+                      </li>
                     </ul>
                   </li>
                 </ul>
@@ -55,26 +66,42 @@ import CollectItem from "@/components/product/collectItem.vue"
           <div class="shop-product-wrapper" data-target="list">
             <div class="shop-product-wrap row list">
               <div class="col-xl-4 col-lg-6 col-md-4 col-sm-6">
-                <CollectItem v-for="item in 6"></CollectItem>
+                <CollectItem
+                  v-for="collectItem in collectionList"
+                  :collectItem="collectItem"
+                ></CollectItem>
               </div>
             </div>
-
           </div>
-          <!-- start pagination area -->
-          <div class="paginatoin-area text-center mt-18">
-            <ul class="pagination-box">
-              <li><a class="Previous" href="#">Previous</a></li>
-              <li class="active"><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a class="Next" href="#"> Next </a></li>
-            </ul>
-          </div>
-          <!-- end pagination area -->
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.category:hover{
+  cursor: pointer;
+  color: #ff7e67;
+}
+.categoryTitle {
+  font-size: 18px;
+  margin-top: 10px;
+  text-indent: 2em;
+}
+.categoryItem {
+  text-indent: 2em;
+}
+.categoryItem:hover {
+  cursor: pointer;
+  color: #ff7e67;
+}
+
+
+
+
+
+
+
+
+</style>

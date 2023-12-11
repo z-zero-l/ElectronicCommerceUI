@@ -1,35 +1,70 @@
 <script setup>
+import service from "@/utils/request.js";
+
+// 组件引入
+const props = defineProps({ collectItem: Object });
+
+// 取消收藏
+function cancelCollect(productId) {
+  service
+    .post("/collect/cancel", {
+      productId: productId,
+    })
+    .then((res) => {
+      console.log(res.data);
+    });
+}
 </script>
 
 <template>
-  <!-- product list item start -->
   <div class="product-list-item mb-20">
-    <div class="product-thumb">
-      <a href="product-details.html">
-        <img src="@/assets/img/product/product-5.jpg" alt="product image">
-      </a>
-      <div class="box-label">
-        <div class="product-label new">
-          <span>new</span>
-        </div>
-        <div class="product-label discount">
-          <span>-5%</span>
+    <router-link :to="'/product/' + props.collectItem.productId">
+      <div class="product-thumb" style="border: none">
+        <div style="width: 40%">
+          <div
+            style="
+              padding: 100%;
+              height: 0;
+              position: relative;
+              cursor: pointer;
+            "
+          >
+            <img
+              :src="props.collectItem.productCover"
+              class="img-thumbnail"
+              style="
+                position: absolute;
+                top: 0;
+                left: 12%;
+                width: 100%;
+                height: 100%;
+              "
+            />
+          </div>
         </div>
       </div>
-    </div>
-    <div class="product-list-content">
-      <h4><a href="#">Fashion Manufacturer</a></h4>
-      <h3><a href="product-details.html">Crown Summit Backpacks</a></h3>
+    </router-link>
+    <div class="product-list-content" style="width: 70%">
+      <h4 class="mt-3">
+        <router-link :to="'/business/' + props.collectItem.businessId">
+          <a href="#">{{ props.collectItem.businessName }}</a>
+        </router-link>
+      </h4>
+      <h3>
+        <router-link :to="'/product/' + props.collectItem.productId">
+          <a href="#">{{ props.collectItem.productName }}</a>
+        </router-link>
+      </h3>
       <div class="pricebox">
-        <span class="regular-price">$70.00</span>
-        <span class="old-price"><del>$90.00</del></span>
+        <span class="regular-price fs-5">￥{{ props.collectItem.price }}</span>
       </div>
-      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-        et dolore magna aliquyam erat, sed diam voluptua. Phasellus id nisi quis justo tempus mollis sed et dui.
-        In hac habitasse platea dictumst. Suspendisse ultrices mauris diam. Nullam sed aliquet elit.</p>
-      <!-- <div class="product-btn product-btn__color"> -->
-        <div class="fs-4 text-danger"><i class="bi bi-heart-fill "></i></div>
-      <!-- </div> -->
+      <p class="py-2">{{ props.collectItem.productProfile }}</p>
+      <div
+        class="fs-4 text-danger" style="cursor:pointer;"
+        @click="cancelCollect(props.collectItem.productId)"
+      >
+        <i class="bi bi-heart-fill"></i>
+      </div>
     </div>
   </div>
 </template>
