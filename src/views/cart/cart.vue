@@ -1,4 +1,19 @@
 <script setup>
+import { ref, onMounted } from "vue";
+import service from "@/utils/request.js";
+
+onMounted(() => {
+  getCartList();
+});
+
+// 获取购物车列表
+const cartList = ref([]);
+const getCartList = async () => {
+  service.get("/cart/list").then((res) => {
+    cartList.value = res.data.data
+    console.log(cartList.value)
+  });
+};
 </script>
 
 <template>
@@ -14,104 +29,122 @@
               <table class="table table-bordered mt-3">
                 <thead>
                   <tr>
-                    <th class="pro-thumbnail" style="background-color: rgb(255,126,103);"></th>
-                    <th class="pro-thumbnail" style="background-color: rgb(255,126,103);">Thumbnail</th>
-                    <th class="pro-title" style="background-color: rgb(255,126,103);">Product</th>
-                    <th class="pro-price" style="background-color: rgb(255,126,103);">Specs</th>
-                    <th class="pro-quantity" style="background-color: rgb(255,126,103);">Quantity</th>
-                    <th class="pro-subtotal" style="background-color: rgb(255,126,103);">Price</th>
-                    <th class="pro-remove" style="background-color: rgb(255,126,103);">Remove</th>
+                    <th
+                      class="pro-thumbnail"
+                      style="background-color: rgb(255, 126, 103)"
+                    ></th>
+                    <th
+                      class="pro-thumbnail"
+                      style="background-color: rgb(255, 126, 103)"
+                    >
+                      Thumbnail
+                    </th>
+                    <th
+                      class="pro-title"
+                      style="background-color: rgb(255, 126, 103)"
+                    >
+                      Product
+                    </th>
+                    <th
+                      class="pro-price"
+                      style="background-color: rgb(255, 126, 103)"
+                    >
+                      Specs
+                    </th>
+                    <th
+                      class="pro-quantity"
+                      style="background-color: rgb(255, 126, 103)"
+                    >
+                      Quantity
+                    </th>
+                    <th
+                      class="pro-subtotal"
+                      style="background-color: rgb(255, 126, 103)"
+                    >
+                      Price
+                    </th>
+                    <th
+                      class="pro-remove"
+                      style="background-color: rgb(255, 126, 103)"
+                    >
+                      Remove
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr v-for="item in cartList" :key="item.cartId">
                     <td>
                       <div class="form-check">
-                        <input class="form-check-input border-warning" type="checkbox" value="" id="flexCheckDisabled" >
+                        <input
+                          class="form-check-input border-warning"
+                          type="checkbox"
+                          id="flexCheckDisabled"
+                        />
                       </div>
                     </td>
-                    <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="@/assets/img/product/product-1.jpg"
-                          alt="Product" /></a></td>
-                    <td class="pro-title"><a href="#">商品</a></td>
-                    <td class="pro-title"><a href="#">规格</a></td>
+                    <td class="pro-thumbnail">
+                      <a href="#"
+                        ><img
+                          class="img-fluid"
+                          :src="item.specImg"
+                          alt="Product"
+                      /></a>
+                    </td>
+                    <td class="pro-title"><a href="#">{{item.productName}}</a></td>
+                    <td class="pro-title"><a href="#">{{item.specName}}</a></td>
                     <td class="pro-quantity">
-                        <button type="button" class="btn btn-light " style="width: 34px;">+</button>
-                        <input type="text" class="text-center border border-white" style="width: 34px; height: 34px;" value="1"/>
-                        <button type="button" class="btn btn-light " style="width: 34px;">-</button>
+                      <button
+                        type="button"
+                        class="btn btn-light"
+                        style="width: 34px"
+                      >
+                        +
+                      </button>
+                      <input
+                        type="text"
+                        class="text-center border border-white"
+                        style="width: 34px; height: 34px"
+                        :value="item.quantity"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-light"
+                        style="width: 34px"
+                      >
+                        -
+                      </button>
                     </td>
-                    <td class="pro-subtotal"><span>$295.00</span></td>
-                    <td class="pro-remove"><a href="#" class="sqr-btn text-white" style="padding: 4px 10px; font-size: 12px;">移除</a></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <input class="form-check-input border-warning" type="checkbox" value="" id="flexCheckDisabled" >
-                      </div>
+                    <td class="pro-subtotal">
+                      <span class="d-block fs-6">￥{{ item.sellPrice }}</span>
+                      <span class="d-block text-body-tertiary"
+                        ><del>￥{{item.joinPrice}}</del></span
+                      >
                     </td>
-                    <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="@/assets/img/product/product-2.jpg"
-                          alt="Product" /></a></td>
-                    <td class="pro-title"><a href="#">Joust Duffle Bags</a></td>
-                    <td class="pro-price"><span>$275.00</span></td>
-                    <td class="pro-quantity">
-                        <button type="button" class="btn btn-light " style="width: 34px;">+</button>
-                        <input type="text" class="text-center border border-white" style="width: 34px; height: 34px;" value="1"/>
-                        <button type="button" class="btn btn-light " style="width: 34px;">-</button>
+                    <td class="pro-remove">
+                      <a
+                        href="#"
+                        class="sqr-btn text-white"
+                        style="padding: 4px 10px; font-size: 12px"
+                        >移除</a
+                      >
                     </td>
-                    <td class="pro-subtotal"><span>$550.00</span></td>
-                    <td class="pro-remove"><a href="#" class="sqr-btn text-white" style="padding: 4px 10px; font-size: 12px;">移除</a></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <input class="form-check-input border-warning" type="checkbox" value="" id="flexCheckDisabled" >
-                      </div>
-                    </td>
-                    <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="@/assets/img/product/product-3.jpg"
-                          alt="Product" /></a></td>
-                    <td class="pro-title"><a href="#">Compete Track Totes</a></td>
-                    <td class="pro-price"><span>$295.00</span></td>
-                    <td class="pro-quantity">
-                        <button type="button" class="btn btn-light " style="width: 34px;">+</button>
-                        <input type="text" class="text-center border border-white" style="width: 34px; height: 34px;" value="1"/>
-                        <button type="button" class="btn btn-light " style="width: 34px;">-</button>
-                    </td>
-                    <td class="pro-subtotal"><span>$295.00</span></td>
-                    <td class="pro-remove"><a href="#" class="sqr-btn text-white" style="padding: 4px 10px; font-size: 12px;">移除</a></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <div class="form-check">
-                        <input class="form-check-input border-warning" type="checkbox" value="" id="flexCheckDisabled" >
-                      </div>
-                    </td>
-                    <td class="pro-thumbnail"><a href="#"><img class="img-fluid" src="@/assets/img/product/product-4.jpg"
-                          alt="Product" /></a></td>
-                    <td class="pro-title"><a href="#">Bess Yoga Shorts</a></td>
-                    <td class="pro-price"><span>$110.00</span></td>
-                    <td class="pro-quantity">
-                        <button type="button" class="btn btn-light " style="width: 34px;">+</button>
-                        <input type="text" class="text-center border border-white" style="width: 34px; height: 34px;" value="1"/>
-                        <button type="button" class="btn btn-light " style="width: 34px;">-</button>
-                    </td>
-                    <td class="pro-subtotal"><span>$110.00</span></td>
-                    <td class="pro-remove"><a href="#" class="sqr-btn text-white" style="padding: 4px 10px; font-size: 12px;">移除</a></td>
-
                   </tr>
                 </tbody>
               </table>
             </div>
             <!-- Cart Update Option -->
-            <div class="cart-update-option d-block d-md-flex justify-content-between">
-              <div class="cart-update mt-sm-16 ml-auto">
-                <span  class="sqr-btn-f">合计: ￥100.00元</span>
+            <div
+              class="cart-update-option d-block d-md-flex justify-content-between"
+            >
+              <div class="cart-update ml-auto">
+                <span class="sqr-btn-f">合计: ￥100.00元</span>
                 <a href="#" class="sqr-btn">结算</a>
               </div>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-5 ml-auto">
-          </div>
+          <div class="col-lg-5 ml-auto"></div>
         </div>
       </div>
     </div>

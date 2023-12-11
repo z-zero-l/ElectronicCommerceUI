@@ -4,6 +4,7 @@ const props = defineProps({ productItem: Object })
 
 <template>
   <div class="col">
+    <router-link :to="'/product/'+props.productItem.productId">
     <div class="product-item mb-20">
       <div class="product-thumb">
         <div class="product-img">
@@ -34,7 +35,9 @@ const props = defineProps({ productItem: Object })
       </div>
       <div class="product-description text-center">
         <div class="manufacturer">
+          <router-link :to="'/business/'+props.productItem.businessId">
           <p><a href="product-details.html">{{props.productItem.business}}</a></p>
+          </router-link>
         </div>
         <div class="product-name">
           <h3><a href="product-details.html">{{props.productItem.productName}}</a></h3>
@@ -45,12 +48,20 @@ const props = defineProps({ productItem: Object })
         </div>
       </div>
     </div>
+    </router-link>
   </div>
 </template>
 
 <style scoped>
 .obj-fit{
   object-fit: cover;
+
+
+
+
+
+
+
 
 
 

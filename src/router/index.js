@@ -63,7 +63,7 @@ export const router = createRouter({
     },
     // 商品
     {
-      path: "/product",
+      path: "/product/:id",
       name: "product",
       component: () => import("@/views/product/product.vue"),
     },
@@ -78,6 +78,12 @@ export const router = createRouter({
       path: "/category",
       name: "category",
       component: () => import("@/views/category/category.vue"),
+    },
+    // 店铺信息
+    {
+      path: "/business/:id",
+      name: "business",
+      component: () => import("@/views/business/business.vue"),
     },
   ],
 });
