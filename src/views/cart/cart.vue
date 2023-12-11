@@ -10,10 +10,24 @@ onMounted(() => {
 const cartList = ref([]);
 const getCartList = async () => {
   service.get("/cart/list").then((res) => {
-    cartList.value = res.data.data
-    console.log(cartList.value)
+    cartList.value = res.data.data;
   });
 };
+
+// 合计
+
+// 选中/取消选中
+
+// 商品数量加
+
+// 商品数量减
+
+// 修改商品数量
+
+// 移出购物车
+
+// 结算
+
 </script>
 
 <template>
@@ -83,15 +97,22 @@ const getCartList = async () => {
                       </div>
                     </td>
                     <td class="pro-thumbnail">
-                      <a href="#"
-                        ><img
-                          class="img-fluid"
-                          :src="item.specImg"
-                          alt="Product"
-                      /></a>
+                      <router-link :to="'/product/' + item.productId">
+                        <a href="#"
+                          ><img
+                            class="img-fluid"
+                            :src="item.specImg"
+                            alt="Product"
+                        /></a>
+                      </router-link>
                     </td>
-                    <td class="pro-title"><a href="#">{{item.productName}}</a></td>
-                    <td class="pro-title"><a href="#">{{item.specName}}</a></td>
+                    <td class="pro-title">
+                      <a href="#">{{ item.productName }}</a>
+                    </td>
+                    <td class="pro-title">
+                      <a href="#">{{ item.specName }}</a>
+                    </td>
+
                     <td class="pro-quantity">
                       <button
                         type="button"
@@ -117,7 +138,7 @@ const getCartList = async () => {
                     <td class="pro-subtotal">
                       <span class="d-block fs-6">￥{{ item.sellPrice }}</span>
                       <span class="d-block text-body-tertiary"
-                        ><del>￥{{item.joinPrice}}</del></span
+                        ><del>￥{{ item.joinPrice }}</del></span
                       >
                     </td>
                     <td class="pro-remove">
