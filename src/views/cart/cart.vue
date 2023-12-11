@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import service from "@/utils/request.js";
 
 onMounted(() => {
@@ -15,6 +15,14 @@ const getCartList = async () => {
 };
 
 // 合计
+const totalPrice = computed(() => {
+  return cartList.value.reduce((total, item) => {
+    if (item.selected) {
+      return total + item.sellPrice * item.quantity;
+    }
+    return total;
+  }, 0);
+});
 
 // 选中/取消选中
 
@@ -27,7 +35,6 @@ const getCartList = async () => {
 // 移出购物车
 
 // 结算
-
 </script>
 
 <template>
@@ -93,24 +100,25 @@ const getCartList = async () => {
                           class="form-check-input border-warning"
                           type="checkbox"
                           id="flexCheckDisabled"
+                          :checked="item.selected === 1"
                         />
                       </div>
                     </td>
                     <td class="pro-thumbnail">
                       <router-link :to="'/product/' + item.productId">
-                        <a href="#"
+                        <span
                           ><img
                             class="img-fluid"
                             :src="item.specImg"
                             alt="Product"
-                        /></a>
+                        /></span>
                       </router-link>
                     </td>
                     <td class="pro-title">
-                      <a href="#">{{ item.productName }}</a>
+                      <span>{{ item.productName }}</span>
                     </td>
                     <td class="pro-title">
-                      <a href="#">{{ item.specName }}</a>
+                      <span>{{ item.specName }}</span>
                     </td>
 
                     <td class="pro-quantity">
@@ -142,11 +150,10 @@ const getCartList = async () => {
                       >
                     </td>
                     <td class="pro-remove">
-                      <a
-                        href="#"
+                      <span
                         class="sqr-btn text-white"
                         style="padding: 4px 10px; font-size: 12px"
-                        >移除</a
+                        >移除</span
                       >
                     </td>
                   </tr>
@@ -158,7 +165,7 @@ const getCartList = async () => {
               class="cart-update-option d-block d-md-flex justify-content-between"
             >
               <div class="cart-update ml-auto">
-                <span class="sqr-btn-f">合计: ￥100.00元</span>
+                <span class="sqr-btn-f">合计: ￥{{ totalPrice }}元</span>
                 <a href="#" class="sqr-btn">结算</a>
               </div>
             </div>
