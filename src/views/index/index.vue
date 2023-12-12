@@ -5,9 +5,6 @@ import { ref, onMounted } from "vue";
 import IndexItem from "@/components/product/indexItem.vue";
 import Carousel from "@/components/carousel/carousel.vue";
 
-// 每行展示商品数
-const rowItemSize = ref(4);
-
 // 初始化后执行
 onMounted(() => {
   selectProductList();
@@ -30,20 +27,11 @@ const selectProductList = async () => {
     console.log(productList.value);
   });
 };
-
-let productRowList = ref([]);
-function getProductRowList(r) {
-  productRowList.value = productList.value.slice(4 * (r - 1), 4 * (r - 1) + 4);
-  return productRowList.value;
-}
 </script>
 
 <template>
-  <!-- slider area start -->
   <Carousel :carouselList="carouselList"></Carousel>
-  <!-- slider area end -->
 
-  <!-- featured product area start -->
   <div class="page-section pt-100 pb-14 pt-sm-60 pb-sm-0">
     <div class="container">
       <div class="row">
@@ -54,18 +42,9 @@ function getProductRowList(r) {
           </div>
         </div>
       </div>
-      <div
-        class="row product-carousel-one spt slick-arrow-style"
-        v-for="r in parseInt(productList.length / rowItemSize)"
-        :key="r"
-      >
-        <template v-for="item in getProductRowList(r)" :key="item.productId">
-          <IndexItem :productItem="item"></IndexItem>
-        </template>
-      </div>
+      <IndexItem :productList="productList"></IndexItem>
     </div>
   </div>
-  <!-- featured product area end -->
 </template>
 
 <style scoped></style>
