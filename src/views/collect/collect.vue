@@ -80,7 +80,7 @@ const getCategoryList = async () => {
 </template>
 
 <style scoped>
-.category:hover{
+.category:hover {
   cursor: pointer;
   color: #ff7e67;
 }
@@ -96,12 +96,5 @@ const getCategoryList = async () => {
   cursor: pointer;
   color: #ff7e67;
 }
-
-
-
-
-
-
-
 
 </style>

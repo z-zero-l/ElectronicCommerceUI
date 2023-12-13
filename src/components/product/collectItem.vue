@@ -1,22 +1,52 @@
 <script setup>
+import { ref } from "vue";
 import service from "@/utils/request.js";
 
 // 组件引入
 const props = defineProps({ collectItem: Object });
 
+// 消息提示
+const message = ref("");
+const isShow = ref(Boolean);
+isShow.value = false;
+
 // 取消收藏
-function cancelCollect(productId) {
+function cancelCollect() {
   service
-    .post("/collect/cancel", {
-      productId: productId,
+    .delete("/collect/cancel", {
+      params: {
+        productId: props.collectItem.productId,
+      },
     })
     .then((res) => {
-      console.log(res.data);
+      if (res.data.code == 200) {
+        message.value = "取消收藏成功~";
+        isShow.value = true;
+        // 延迟1s
+        setTimeout(() => {
+          location.reload(); // 页面刷新
+          isShow.value = false;
+        }, 1000);
+      }
     });
 }
 </script>
 
 <template>
+  <v-alert
+    type="info"
+    variant="tonal"
+    :text="message"
+    style="
+      width: 18%;
+      position: fixed;
+      top: 120px;
+      left: 80%;
+      z-index: 1;
+      min-width: 200px;
+    "
+    :model-value="isShow"
+  ></v-alert>
   <div class="product-list-item mb-20">
     <router-link :to="'/product/' + props.collectItem.productId">
       <div class="product-thumb" style="border: none">
@@ -60,8 +90,9 @@ function cancelCollect(productId) {
       </div>
       <p class="py-2">{{ props.collectItem.productProfile }}</p>
       <div
-        class="fs-4 text-danger" style="cursor:pointer;"
-        @click="cancelCollect(props.collectItem.productId)"
+        class="fs-4 text-danger"
+        style="cursor: pointer"
+        @click="cancelCollect()"
       >
         <i class="bi bi-heart-fill"></i>
       </div>
