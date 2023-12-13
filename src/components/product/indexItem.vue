@@ -21,7 +21,7 @@ const rowItemSize = ref(4);
         <div class="product-item mb-20">
           <div class="product-thumb">
             <div class="product-img">
-              <a href="product-details.html">
+              <a href="#">
                 <img
                   :src="product.productCover"
                   alt="product image"
@@ -60,13 +60,13 @@ const rowItemSize = ref(4);
             <div class="manufacturer">
               <router-link :to="'/business/' + product.businessId">
                 <p>
-                  <a href="product-details.html">{{ product.business }}</a>
+                  <a href="#">{{ product.business }}</a>
                 </p>
               </router-link>
             </div>
             <div class="product-name">
               <h3>
-                <a href="product-details.html">{{ product.productName }}</a>
+                <a href="#">{{ product.productName }}</a>
               </h3>
             </div>
             <div class="price-box">
@@ -84,6 +84,9 @@ const rowItemSize = ref(4);
 .obj-fit {
   object-fit: cover;
 }
+
+
+
 
 
 </style>

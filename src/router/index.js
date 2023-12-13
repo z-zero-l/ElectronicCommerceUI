@@ -74,6 +74,11 @@ export const router = createRouter({
       name: "search",
       component: () => import("@/views/search/search.vue"),
     },
+    {
+      path: "/search/category/:id",
+      name: "searchCategory",
+      component: () => import("@/views/search/search.vue"),
+    },
     // 分类
     {
       path: "/category",
