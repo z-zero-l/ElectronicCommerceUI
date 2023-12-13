@@ -6,8 +6,7 @@ const router = useRouter();
 
 // 消息提示
 const message = ref("");
-const isShow = ref(Boolean);
-isShow.value = false;
+const isShow = ref(false);
 
 // 登录信息
 const account = ref("");
@@ -23,13 +22,13 @@ const login = async () => {
     })
     .then((res) => {
       if (res.data.code == 200) {
-        // 注册成功
+        // 登录成功
         message.value = "登录成功";
         isShow.value = true;
         // 存入token
         window.localStorage.setItem('token',res.data.data.token);
         avatar.value=res.data.data.avatar
-        // 延迟2s跳转登录页
+        // 延迟2s跳转主页
         setTimeout(() => {
           isShow.value = false;
           router.push({ path: "/index" });

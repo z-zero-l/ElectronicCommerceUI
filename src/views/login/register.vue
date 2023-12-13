@@ -6,8 +6,7 @@ const router = useRouter();
 
 // 消息提示
 const message = ref("");
-const isShow = ref(Boolean);
-isShow.value = false;
+const isShow = ref(false);
 
 // 注册信息
 const account = ref("");
