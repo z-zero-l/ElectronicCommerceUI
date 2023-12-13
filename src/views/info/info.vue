@@ -1,13 +1,14 @@
 <script setup>
 import service from "@/utils/request.js";
-import { onMounted, ref } from "vue";
-
+import { onMounted, ref ,computed} from "vue";
+import { format } from "date-fns";
 onMounted(() => {
   getProfile();
 });
 
 // 获取用户信息
 const profile = ref({});
+let date = ref()
 const getProfile = async () => {
   service.get("/user/profile").then((res) => {
     profile.value = res.data.data;
@@ -48,6 +49,9 @@ const changeProfile = async () => {
     console.log(res.data);
   });
 };
+const formattedDate = computed(() => {
+  return date.value ? format(date.value,"yyyy-MM-dd"): '';
+});
 </script>
 
 <template>
@@ -175,7 +179,14 @@ const changeProfile = async () => {
                             <div class="col-lg-6">
                               <div class="single-input-item">
                                 <label for="birthday" class="">生日</label>
-                                <input
+                                <input v-if="formattedDate!=''"
+                                  type="text"
+                                  id="birthday"
+                                  placeholder="生日"
+                                  v-model="formattedDate"
+                                  @click="changeBirthdayPicker()"
+                                />
+                                <input v-else
                                   type="text"
                                   id="birthday"
                                   placeholder="生日"
@@ -189,8 +200,9 @@ const changeProfile = async () => {
                                     margin: auto;
                                   "
                                   color="#ff7e67"
-                                  v-model="profile.birthday"
+                                  v-model="date"
                                   v-show="isBirthdayPicker"
+
                                 ></v-date-picker>
                               </div>
                             </div>
@@ -239,7 +251,6 @@ const changeProfile = async () => {
   >
     <form class="minisearch" action="#">
       <div class="field__search">
-        <!-- <input type="text" placeholder="Search Our Catalog"> -->
         <input type="file" style="height: 40px; line-height: 40px" />
         <button
           @click="changeAvatar()"

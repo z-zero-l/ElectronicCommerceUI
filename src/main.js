@@ -39,6 +39,8 @@ import "vuetify/styles";
 import { createVuetify } from "vuetify";
 import * as components from "vuetify/components";
 import * as directives from "vuetify/directives";
+// 引入vuetify图标库
+import "@mdi/font/css/materialdesignicons.css";
 
 const vuetify = createVuetify({
   components,
