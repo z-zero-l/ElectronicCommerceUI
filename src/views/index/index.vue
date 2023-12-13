@@ -1,6 +1,7 @@
 <script setup>
 import service from "@/utils/request.js";
 import { ref, onMounted } from "vue";
+
 // 组件引入
 import IndexItem from "@/components/product/indexItem.vue";
 import Carousel from "@/components/carousel/carousel.vue";
@@ -24,7 +25,6 @@ const productList = ref([]);
 const selectProductList = async () => {
   service.get("/product/indexList").then((res) => {
     productList.value = res.data.data;
-    console.log(productList.value);
   });
 };
 </script>
