@@ -25,7 +25,7 @@ function getCollectionList(cateId) {
 // 获取分类列表
 const categoryList = ref([]);
 const getCategoryList = async () => {
-  service.get("/category/list").then((res) => {
+  service.get("/collect/category").then((res) => {
     categoryList.value = res.data.data;
   });
 };
