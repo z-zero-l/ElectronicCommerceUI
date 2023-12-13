@@ -11,7 +11,6 @@ const isShow = ref(false);
 // 登录信息
 const account = ref("");
 const password = ref("");
-const avatar = ref("");
 
 // 登录
 const login = async () => {
@@ -26,13 +25,13 @@ const login = async () => {
         message.value = "登录成功";
         isShow.value = true;
         // 存入token
-        window.localStorage.setItem('token',res.data.data.token);
-        avatar.value=res.data.data.avatar
-        // 延迟2s跳转主页
+        window.localStorage.setItem("token", res.data.data.token);
+        // 延迟1s跳转主页
         setTimeout(() => {
           isShow.value = false;
+          location.reload(); // 页面刷新
           router.push({ path: "/index" });
-        }, 2000);
+        }, 1000);
       }
     });
 };
