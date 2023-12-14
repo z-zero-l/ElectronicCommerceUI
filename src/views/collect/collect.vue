@@ -1,5 +1,4 @@
 <script setup>
-import CollectItem from "@/components/product/collectItem.vue";
 import { ref, onMounted } from "vue";
 import service from "@/utils/request.js";
 
