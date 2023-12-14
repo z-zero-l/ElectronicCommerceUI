@@ -5,7 +5,7 @@ const props = defineProps({ categoryItem: Object });
 </script>
 
 <template>
-  <div class="col mt-3">
+  <div class="col-3 mt-3">
     <router-link :to="'/product/' + props.categoryItem.productId">
       <div class="product-item mb-20">
         <div class="product-thumb">

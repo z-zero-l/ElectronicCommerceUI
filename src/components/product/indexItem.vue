@@ -7,26 +7,15 @@ const rowItemSize = ref(4);
 </script>
 
 <template>
-  <div
-    class="row product-carousel-one spt slick-arrow-style"
-    v-for="r in parseInt(props.productList.length / rowItemSize)"
-    :key="r"
-  >
-    <div
-      class="col"
-      v-for="product in props.productList.slice(4 * (r - 1), 4 * (r - 1) + 4)"
-      :key="product.productId"
-    >
+  <div class="row product-carousel-one spt slick-arrow-style"
+    v-for="r in parseInt(props.productList.length / rowItemSize)" :key="r">
+    <div class="col" v-for="product in props.productList.slice(4 * (r - 1), 4 * (r - 1) + 4)" :key="product.productId">
       <router-link :to="'/product/' + product.productId">
         <div class="product-item mb-20">
           <div class="product-thumb">
             <div class="product-img">
               <a href="#">
-                <img
-                  :src="product.productCover"
-                  alt="product image"
-                  class="obj-fit w-75 h-75"
-                />
+                <img :src="product.productCover" alt="product image" class="obj-fit w-75 h-75" />
               </a>
             </div>
             <div class="box-label">
@@ -45,12 +34,8 @@ const rowItemSize = ref(4);
             </div>
             <div class="product-action-link">
               <a href="#" data-toggle="modal" data-target="#quick_view">
-                <span
-                  data-toggle="tooltip"
-                  data-placement="left"
-                  title="Quick view"
-                  ><i class="ion-ios-eye-outline"></i
-                ></span>
+                <span data-toggle="tooltip" data-placement="left" title="Quick view"><i
+                    class="ion-ios-eye-outline"></i></span>
               </a>
               <!-- <a href="#" data-toggle="tooltip" data-placement="left" title="Compare"><i class="ion-ios-loop"></i></a> -->
               <!-- <a href="#" data-toggle="tooltip" data-placement="left" title="Wishlist"><i class="ion-ios-shuffle"></i></a> -->
@@ -71,7 +56,7 @@ const rowItemSize = ref(4);
             </div>
             <div class="price-box">
               <span class="regular-price">￥{{ product.price }}</span>
-              <span class="old-price">10000+人付款</span>
+              <span class="old-price">{{ product.totalSaleAmount }}+人付款</span>
             </div>
           </div>
         </div>
@@ -84,9 +69,4 @@ const rowItemSize = ref(4);
 .obj-fit {
   object-fit: cover;
 }
-
-
-
-
-
 </style>

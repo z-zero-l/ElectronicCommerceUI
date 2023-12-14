@@ -65,7 +65,7 @@ function getCategorySecondList(parentId) {
                 <h6 class="my-2">
                   <span>{{ categorySecond.cateName }}</span>
                   <router-link
-                    :to="'/search/category/' + categorySecond.categoryId"
+                    :to="'/categoryProducts/' + categorySecond.categoryId"
                   >
                     <a
                       href="#"

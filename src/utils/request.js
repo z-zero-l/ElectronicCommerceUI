@@ -1,6 +1,5 @@
 import VueAxios from "vue-axios";
 import axios from "axios";
-import { ref } from "vue";
 
 const service = axios.create({
   baseURL: "http://localhost:8080",
