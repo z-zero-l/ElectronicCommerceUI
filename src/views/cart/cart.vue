@@ -38,56 +38,35 @@ const totalPrice = computed(() => {
 </script>
 
 <template>
-  <!-- page main wrapper start -->
   <main>
-    <!-- cart main wrapper start -->
     <div class="cart-main-wrapper pt-100 pb-100 pt-sm-58 pb-sm-58 mt-15">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <!-- Cart Table Area -->
             <div class="cart-table table-responsive">
               <table class="table table-bordered mt-3">
                 <thead>
                   <tr>
                     <th
                       class="pro-thumbnail"
-                      style="background-color: rgb(255, 126, 103)"
+                      style="background-color: #ff7e67"
                     ></th>
-                    <th
-                      class="pro-thumbnail"
-                      style="background-color: rgb(255, 126, 103)"
-                    >
+                    <th class="pro-thumbnail" style="background-color: #ff7e67">
                       Thumbnail
                     </th>
-                    <th
-                      class="pro-title"
-                      style="background-color: rgb(255, 126, 103)"
-                    >
+                    <th class="pro-title" style="background-color: #ff7e67">
                       Product
                     </th>
-                    <th
-                      class="pro-price"
-                      style="background-color: rgb(255, 126, 103)"
-                    >
+                    <th class="pro-price" style="background-color: #ff7e67">
                       Specs
                     </th>
-                    <th
-                      class="pro-quantity"
-                      style="background-color: rgb(255, 126, 103)"
-                    >
+                    <th class="pro-quantity" style="background-color: #ff7e67">
                       Quantity
                     </th>
-                    <th
-                      class="pro-subtotal"
-                      style="background-color: rgb(255, 126, 103)"
-                    >
+                    <th class="pro-subtotal" style="background-color: #ff7e67">
                       Price
                     </th>
-                    <th
-                      class="pro-remove"
-                      style="background-color: rgb(255, 126, 103)"
-                    >
+                    <th class="pro-remove" style="background-color: #ff7e67">
                       Remove
                     </th>
                   </tr>
@@ -160,7 +139,6 @@ const totalPrice = computed(() => {
                 </tbody>
               </table>
             </div>
-            <!-- Cart Update Option -->
             <div
               class="cart-update-option d-block d-md-flex justify-content-between"
             >
@@ -176,9 +154,7 @@ const totalPrice = computed(() => {
         </div>
       </div>
     </div>
-    <!-- cart main wrapper end -->
   </main>
-  <!-- page main wrapper end -->
 </template>
 
 <style scoped></style>
