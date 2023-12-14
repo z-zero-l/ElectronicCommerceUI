@@ -56,7 +56,7 @@ const rowItemSize = ref(4);
             </div>
             <div class="price-box">
               <span class="regular-price">￥{{ product.price }}</span>
-              <span class="old-price">{{ product.totalSaleAmount }}+人付款</span>
+              <span class="old-price">{{ product.totalSaleAmount }} 人已付款</span>
             </div>
           </div>
         </div>

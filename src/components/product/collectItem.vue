@@ -77,24 +77,24 @@ function cancelCollect() {
     <div class="product-list-content" style="width: 70%">
       <h4 class="mt-3">
         <router-link :to="'/business/' + props.collectItem.businessId">
-          <a href="#">{{ props.collectItem.businessName }}</a>
+          <span>{{ props.collectItem.businessName }}</span>
         </router-link>
       </h4>
       <h3>
         <router-link :to="'/product/' + props.collectItem.productId">
-          <a href="#">{{ props.collectItem.productName }}</a>
+          <span>{{ props.collectItem.productName }}</span>
         </router-link>
       </h3>
       <div class="pricebox">
         <span class="regular-price fs-5">￥{{ props.collectItem.price }}</span>
       </div>
-      <p class="py-2">{{ props.collectItem.productProfile }}</p>
+      <p class="p-0 pt-2 pb-4">{{ props.collectItem.productProfile }}</p>
       <div
-        class="fs-4 text-danger"
         style="cursor: pointer"
         @click="cancelCollect()"
       >
-        <i class="bi bi-heart-fill"></i>
+        <i class="bi bi-heart-fill fs-4 text-danger"></i>
+        <span style="font-size: 12px; margin-left: 20px; color: #a9a9a9;">已有 {{ props.collectItem.collectCount }} 人收藏</span>
       </div>
     </div>
   </div>

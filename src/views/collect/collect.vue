@@ -37,7 +37,6 @@ const getCategoryList = async () => {
       <div class="row">
         <div class="col-xl-3 col-lg-4 order-2 order-lg-1 mt-20">
           <div class="sidebar-wrapper mt-md-100 mt-sm-48">
-            <!-- single sidebar start -->
             <div class="sidebar-single">
               <div class="sidebar-title">
                 <h3 @click="getCollectionList()" class="category">Category</h3>
@@ -47,11 +46,7 @@ const getCategoryList = async () => {
                   <li v-for="item in categoryList" :key="item.categoryId">
                     <a class="categoryTitle">{{ item.cateName }}</a>
                     <ul class="children">
-                      <li
-                        class="categoryItem"
-                        v-for="i in item.childCate"
-                        @click="getCollectionList(i.categoryId)"
-                      >
+                      <li class="categoryItem" v-for="i in item.childCate" @click="getCollectionList(i.categoryId)">
                         <a>{{ i.cateName }}</a>
                       </li>
                     </ul>
@@ -59,17 +54,13 @@ const getCategoryList = async () => {
                 </ul>
               </div>
             </div>
-            <!-- single sidebar end -->
           </div>
         </div>
         <div class="col-xl-9 col-lg-8 order-1 order-lg-2">
           <div class="shop-product-wrapper" data-target="list">
             <div class="shop-product-wrap row list">
               <div class="col-xl-4 col-lg-6 col-md-4 col-sm-6">
-                <CollectItem
-                  v-for="collectItem in collectionList"
-                  :collectItem="collectItem"
-                ></CollectItem>
+                <CollectItem v-for="collectItem in collectionList" :collectItem="collectItem"></CollectItem>
               </div>
             </div>
           </div>
@@ -84,17 +75,19 @@ const getCategoryList = async () => {
   cursor: pointer;
   color: #ff7e67;
 }
+
 .categoryTitle {
   font-size: 18px;
   margin-top: 10px;
   text-indent: 2em;
 }
+
 .categoryItem {
   text-indent: 2em;
 }
+
 .categoryItem:hover {
   cursor: pointer;
   color: #ff7e67;
 }
-
 </style>
