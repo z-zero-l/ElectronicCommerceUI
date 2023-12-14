@@ -74,16 +74,16 @@ export const router = createRouter({
       name: "search",
       component: () => import("@/views/search/search.vue"),
     },
-    {
-      path: "/search/category/:id",
-      name: "searchCategory",
-      component: () => import("@/views/search/search.vue"),
-    },
     // 分类
     {
       path: "/category",
       name: "category",
       component: () => import("@/views/category/category.vue"),
+    },
+    {
+      path: "/categoryProducts/:id",
+      name: "categoryProducts",
+      component: () => import("@/views/category/cateProducts.vue"),
     },
     // 店铺信息
     {
