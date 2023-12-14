@@ -25,7 +25,6 @@ const register = async () => {
       if (res.data.code == 200) {
         // 注册成功
         message.value = "注册成功";
-        type.value = "success";
         isShow.value = true;
         // 延迟2s跳转登录页
         setTimeout(() => {
