@@ -8,6 +8,10 @@ onMounted(() => {
   getCategoryList();
 });
 
+// 消息提示
+const message = ref("");
+const isShow = ref(false);
+
 // 获取收藏列表
 const collectionList = ref([]);
 function getCollectionList(cateId) {
@@ -29,9 +33,39 @@ const getCategoryList = async () => {
     categoryList.value = res.data.data;
   });
 };
+
+// 取消收藏
+const cancelCollect = async (productId) => {
+  service
+    .delete("/collect/cancel", {
+      params: {
+        productId: productId,
+      },
+    })
+    .then((res) => {
+      if (res.data.code == 200) {
+        message.value = "取消收藏成功~";
+        isShow.value = true;
+        // 延迟1s
+        setTimeout(() => {
+          getCollectionList();
+          getCategoryList();
+          isShow.value = false;
+        }, 1000);
+      }
+    });
+}
 </script>
 
 <template>
+  <v-alert type="info" variant="tonal" :text="message" style="
+      width: 18%;
+      position: fixed;
+      top: 120px;
+      left: 80%;
+      z-index: 1;
+      min-width: 200px;
+    " :model-value="isShow"></v-alert>
   <div class="shop-main-wrapper pt-100 pb-100 pt-sm-58 pb-sm-58">
     <div class="container mt-20">
       <div class="row">
@@ -60,7 +94,54 @@ const getCategoryList = async () => {
           <div class="shop-product-wrapper" data-target="list">
             <div class="shop-product-wrap row list">
               <div class="col-xl-4 col-lg-6 col-md-4 col-sm-6">
-                <CollectItem v-for="collectItem in collectionList" :collectItem="collectItem"></CollectItem>
+                <div class="product-list-item mb-20" v-for="collectItem in collectionList">
+                  <router-link :to="'/product/' + collectItem.productId">
+                    <div class="product-thumb" style="border: none">
+                      <div style="width: 40%">
+                        <div style="
+                            padding: 100%;
+                            height: 0;
+                            position: relative;
+                            cursor: pointer;
+                          ">
+                          <img :src="collectItem.productCover" class="img-thumbnail" style="
+                              position: absolute;
+                              top: 0;
+                              left: 12%;
+                              width: 100%;
+                              height: 100%;
+                            " />
+                        </div>
+                      </div>
+                    </div>
+                  </router-link>
+                  <div class="product-list-content" style="width: 70%">
+                    <h4 class="mt-3">
+                      <router-link :to="'/business/' + collectItem.businessId">
+                        <span>{{ collectItem.businessName }}</span>
+                      </router-link>
+                    </h4>
+                    <h3>
+                      <router-link :to="'/product/' + collectItem.productId">
+                        <span>{{ collectItem.productName }}</span>
+                      </router-link>
+                    </h3>
+                    <div class="pricebox">
+                      <span class="regular-price fs-5">￥{{ collectItem.price }}</span>
+                    </div>
+                    <p class="p-0 pt-2 pb-4">
+                      {{ collectItem.productProfile }}
+                    </p>
+                    <div style="cursor: pointer" @click="cancelCollect(collectItem.productId)">
+                      <i class="bi bi-heart-fill fs-4 text-danger"></i>
+                      <span style="
+                          font-size: 12px;
+                          margin-left: 20px;
+                          color: #a9a9a9;
+                        ">已有 {{ collectItem.collectCount }} 人收藏</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
