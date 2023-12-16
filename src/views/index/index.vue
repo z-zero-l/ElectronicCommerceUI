@@ -16,7 +16,7 @@ onMounted(() => {
 const carouselList = ref([]);
 const selectCarouselList = async () => {
   service.get("/carousel/list").then((res) => {
-    carouselList.value = res.data;
+    carouselList.value = res.data.data;
   });
 };
 

@@ -103,8 +103,6 @@ const removeCart = async (cartId) => {
       }
     });
 };
-
-// 结算
 </script>
 
 <template>
@@ -233,7 +231,7 @@ const removeCart = async (cartId) => {
             >
               <div class="cart-update ml-auto">
                 <span class="sqr-btn-f">合计: ￥{{ totalPrice }}元</span>
-                <a href="#" class="sqr-btn">结算</a>
+                <router-link to="/pay"><a href="#" class="sqr-btn">结算</a></router-link>
               </div>
             </div>
           </div>
