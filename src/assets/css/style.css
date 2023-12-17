@@ -1551,7 +1551,7 @@ only screen and (max-width: 767px) {
     color: #ffffff;
     font-size: 14px;
     font-weight: 500;
-    border: none;
+    border: 1px solid #ff7e67;
     cursor: pointer;
     background-color: #ff7e67;
     padding: 10px 20px 6px;
@@ -1563,7 +1563,7 @@ only screen and (max-width: 767px) {
     color: #ff7e67;
     font-size: 14px;
     font-weight: 500;
-    border: none;
+    border: 1px solid #ff7e67;
     background-color: #ffffff;
     padding: 10px 20px 6px;
     text-transform: uppercase;
