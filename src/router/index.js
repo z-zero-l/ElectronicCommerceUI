@@ -46,7 +46,7 @@ export const router = createRouter({
       component: () => import("@/views/order/order.vue"),
     },
     {
-      path: "/order/info",
+      path: "/order/info/:id",
       name: "orderInfo",
       component: () => import("@/views/order/orderInfo.vue"),
     },
@@ -90,6 +90,12 @@ export const router = createRouter({
       path: "/business/:id",
       name: "business",
       component: () => import("@/views/business/business.vue"),
+    },
+    // 支付
+    {
+      path: "/pay",
+      name: "pay",
+      component: () => import("@/views/pay/pay.vue"),
     },
   ],
 });
