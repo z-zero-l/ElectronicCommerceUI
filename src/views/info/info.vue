@@ -1,35 +1,28 @@
 <script setup>
 import service from "@/utils/request.js";
-import { onMounted, ref ,computed} from "vue";
+import axios from "axios";
+import { onMounted, ref, computed } from "vue";
 import { format } from "date-fns";
+
 onMounted(() => {
   getProfile();
 });
 
 // 获取用户信息
 const profile = ref({});
-let date = ref()
+let date = ref();
 const getProfile = async () => {
   service.get("/user/profile").then((res) => {
     profile.value = res.data.data;
   });
 };
 
-// 更换头像
-const file = ref("");
-const changeAvatar = async () => {
-  service
-    .post("/user/profile/avatar", {
-      file: file.value,
-    })
-    .then((res) => {
-      console.log(res.data);
-    });
-};
+// 消息提示
+const message = ref("");
+const isShow = ref(false);
 
 // 选择文件弹窗控制
-const isVisible = ref(Boolean);
-isVisible.value = false;
+const isVisible = ref(false);
 function changeVisible() {
   isVisible.value = !isVisible.value;
 }
@@ -41,31 +34,61 @@ function changeBirthdayPicker() {
   isBirthdayPicker.value = !isBirthdayPicker.value;
 }
 
+// 更换头像
+const changeAvatar = async (file) => {
+  let formData = new FormData();
+  formData.append("file", file.target.files[0]);
+  axios
+    .post("http://localhost:8080/user/profile/avatar", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: window.localStorage.getItem("token"),
+      },
+    })
+    .then((res) => {
+      profile.value.avatar = res.data.data;
+      isVisible.value = false;
+      location. reload()
+    });
+};
+
 // 修改用户信息
 const changeProfile = async () => {
-  service.post("/user/profile",{
-    // 
-  }).then((res) => {
-    console.log(res.data);
-  });
+  service
+    .post("/user/profile", {
+      //
+    })
+    .then((res) => {
+      console.log(res.data);
+    });
 };
 const formattedDate = computed(() => {
-  return date.value ? format(date.value,"yyyy-MM-dd"): '';
+  return date.value ? format(date.value, "yyyy-MM-dd") : "";
 });
 </script>
 
 <template>
-  <!-- page main wrapper start -->
+    <v-alert
+    type="success"
+    variant="tonal"
+    :text="message"
+    style="
+      width: 18%;
+      position: fixed;
+      top: 120px;
+      left: 80%;
+      z-index: 1;
+      min-width: 200px;
+    "
+    :model-value="isShow"
+  ></v-alert>
   <main>
-    <!-- my account wrapper start -->
     <div class="my-account-wrapper pt-100 pb-100 pt-sm-58 pb-sm-58">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <!-- My Account Tab Content Start -->
             <div class="col-lg-12 col-md-8">
               <div class="tab-content" id="myaccountContent">
-                <!-- Single Tab Content Start -->
                 <div
                   class="tab-pane fade show active"
                   id="dashboad"
@@ -179,14 +202,16 @@ const formattedDate = computed(() => {
                             <div class="col-lg-6">
                               <div class="single-input-item">
                                 <label for="birthday" class="">生日</label>
-                                <input v-if="formattedDate!=''"
+                                <input
+                                  v-if="formattedDate != ''"
                                   type="text"
                                   id="birthday"
                                   placeholder="生日"
                                   v-model="formattedDate"
                                   @click="changeBirthdayPicker()"
                                 />
-                                <input v-else
+                                <input
+                                  v-else
                                   type="text"
                                   id="birthday"
                                   placeholder="生日"
@@ -202,7 +227,6 @@ const formattedDate = computed(() => {
                                   color="#ff7e67"
                                   v-model="date"
                                   v-show="isBirthdayPicker"
-
                                 ></v-date-picker>
                               </div>
                             </div>
@@ -228,47 +252,59 @@ const formattedDate = computed(() => {
                           </div>
                         </fieldset>
                         <div class="single-input-item">
-                          <button class="check-btn sqr-btn" @click="changeProfile()">保存</button>
+                          <button
+                            class="check-btn sqr-btn"
+                            @click="changeProfile()"
+                          >
+                            保存
+                          </button>
                         </div>
                       </form>
                     </div>
                   </div>
                 </div>
-                <!-- Single Tab Content End -->
               </div>
             </div>
-            <!-- My Account Tab Content End -->
           </div>
         </div>
       </div>
     </div>
-    <!-- my account wrapper end -->
   </main>
-  <!-- page main wrapper end -->
-  <div
-    class="box-search-content block-bg search_active close__top is-visible"
-    v-show="isVisible"
-  >
-    <form class="minisearch" action="#">
-      <div class="field__search">
-        <input type="file" style="height: 40px; line-height: 40px" />
-        <button
-          @click="changeAvatar()"
-          style="
-            background-color: #fff;
-            margin: 5px;
-            padding: 8px 10px;
-            float: right;
-          "
+  <!-- Change Avatar -->
+  <v-dialog v-model="isVisible" persistent width="600">
+    <v-card>
+      <v-card-text>
+        <v-form>
+          <v-container>
+            <v-row>
+              <v-col>
+                <v-file-input
+                  accept="image/*"
+                  label="上传图片"
+                  show-size
+                  color="success"
+                  truncate-length="20"
+                  @change="changeAvatar"
+                >
+                </v-file-input>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="blue-darken-1"
+          type="submit"
+          variant="text"
+          @click="changeVisible()"
         >
-          确认上传
-        </button>
-      </div>
-    </form>
-    <div class="close__wrap" @click="changeVisible()">
-      <span>close</span>
-    </div>
-  </div>
+          关闭
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped></style>
