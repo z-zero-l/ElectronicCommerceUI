@@ -1,5 +1,38 @@
 <script setup>
-import BusinessItem from '../../components/product/businessItem.vue';
+import BusinessItem from "@/components/product/businessItem.vue";
+import service from "@/utils/request.js";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
+
+onMounted(() => {
+  getBusinessInfo();
+});
+
+// 获取店铺信息
+const businessInfo = ref({});
+const productList = ref([]);
+const getBusinessInfo = async () => {
+  service.get("/business/" + route.params.id).then((res) => {
+    businessInfo.value = res.data.data;
+    productList.value = res.data.data.productList;
+  });
+};
+
+// 搜索店铺商品
+const searchKeyWord = ref("");
+const searchBusinessProducts = async () => {
+  service
+    .get("/business/search", {
+      params: {
+        keyword: searchKeyWord.value,
+      },
+    })
+    .then((res) => {
+      console.log(res.data.data);
+      // productList.value = res.data.data
+    });
+};
 </script>
 <template>
   <div class="my-account-wrapper pt-100 pb-100 pt-sm-58 pb-sm-58">
@@ -8,36 +41,56 @@ import BusinessItem from '../../components/product/businessItem.vue';
         <div class="col-lg-12">
           <div class="col-lg-9 col-md-8"></div>
           <div class="myaccount-content">
-            <div style="display: flex;justify-content: space-between;">
-              <div style="display: flex; ">
-                <img class="img-thumbnail" src="@/assets/img/cart/cart-1.jpg"
-                  style="border-radius: 50%;width: 80px; height: 80px;">
-                <h3 style="padding: 26px 8px 10px 10px ">王家学姐</h3>
+            <div style="display: flex; justify-content: space-between">
+              <div style="display: flex">
+                <img
+                  class="img-thumbnail"
+                  :src="businessInfo.businessAvatar"
+                  style="border-radius: 50%; width: 80px; height: 80px"
+                />
+                <h3 style="padding: 26px 8px 10px 10px">
+                  {{ businessInfo.businessName }}
+                </h3>
               </div>
               <div style="">
-                <form style="margin-top: 20px ">
+                <form style="margin-top: 20px">
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                      <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Search"
+                      aria-label="Search"
+                      v-model="searchKeyWord"
+                    />
+                    <div
+                      class="input-group-append"
+                      @click="searchBusinessProducts()"
+                    >
+                      <span class="input-group-text search-btn"
+                        ><i class="bi bi-search"></i
+                      ></span>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
-            <p class="saved-message">店铺介绍 <br>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy
-              eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
-              Phasellus id nisi quis justo tempus mollis sed et dui. In hac habitasse platea dictumst. Suspendisse
-              ultrices mauris diam. Nullam sed aliquet elit. Mauris consequat nisi ut mauris efficitur lacinia.</p>
+            <p class="saved-message">
+              {{ businessInfo.businessProfile }}
+              店铺联系方式：{{ businessInfo.businessPhone }}
+            </p>
           </div>
         </div>
       </div>
-      <div class="row product-carousel-one spt slick-arrow-style" data-row="2" v-for="i in 4">
-        <BusinessItem v-for="i in 4"></BusinessItem>
-      </div>
+      <BusinessItem :productList="productList"></BusinessItem>
     </div>
-
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.search-btn:hover{
+  cursor: pointer;
+  background-color: #ff7e67;
+  color: #fff;
+}
+
+</style>
