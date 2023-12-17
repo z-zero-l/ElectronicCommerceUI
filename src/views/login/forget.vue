@@ -19,7 +19,9 @@ const forget = async () => {
   service
     .post("/user/forget", {
       account: account.value,
+      userName: userName.value,
       password: password.value,
+      confirmPassword: confirmPassword.value,
     })
     .then((res) => {
       if (res.data.code == 200) {
