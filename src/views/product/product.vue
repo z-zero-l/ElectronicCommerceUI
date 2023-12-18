@@ -1,31 +1,41 @@
 <script setup>
-import { ref } from "vue";
-const model = ref("");
-const colors = [
-  "indigo",
-  "warning",
-  "pink darken-2",
-  "red lighten-1",
-  "deep-purple accent-4",
-];
+import service from "@/utils/request.js";
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
 
-const slides = [
-  "https://wg233-own.oss-cn-hangzhou.aliyuncs.com/avatar/5924d882ef5d27db3dfb41bf7be964cb4de7ec9ddc5aed6f2fe821b197938b1e.png",
-  "Second",
-  "Third",
-  "Fourth",
-  "Fifth",
-];
+onMounted(() => {
+  getProductInfo();
+});
 
-// 数量
+// 消息提示
+const message = ref("");
+const isShow = ref(false);
+
+// 获取商品信息
+const productInfo = ref({});
+const getProductInfo = async () => {
+  service.get("/product/info/" + route.params.id).then((res) => {
+    productInfo.value = res.data.data;
+    console.log(res.data.data);
+  });
+};
+
+// 获取评论列表
+
+// 选中规格
+const spec = ref({});
+function changeSpec(s) {
+  spec.value = s;
+}
+
+// 数量加减
 const quantity = ref(1);
 function increase() {
   quantity.value++;
-  console.log(quantity.value);
 }
 function decrease() {
   quantity.value--;
-  console.log(quantity.value);
 }
 function check() {
   if (!(quantity.value > 0 && quantity < 1000)) {
@@ -33,14 +43,48 @@ function check() {
   }
 }
 
-const isCollect = ref(false);
+// 加入购物车
+const addCart = async () => {
+  service
+    .post("/cart/add", {
+      id: spec.value.id,
+      count: quantity.value,
+    })
+    .then((res) => {
+      if (res.data.code == 200) {
+        message.value = "加入购物车成功~";
+        isShow.value = true;
+        // 延迟1s
+        setTimeout(() => {
+          isShow.value = false;
+        }, 1000);
+      }
+    });
+};
+
+// 加入收藏
+const addCollect = async () => {
+  service
+    .post("/collect/add?productId=" + productInfo.value.productId)
+    .then((res) => {
+      if (res.data.code == 200) {
+        message.value = "收藏成功~";
+        isShow.value = true;
+        // 延迟1s
+        setTimeout(() => {
+          getProductInfo();
+          isShow.value = false;
+        }, 1000);
+      }
+    });
+};
 
 // 取消收藏
-function cancelCollect() {
+const cancelCollect = async () => {
   service
     .delete("/collect/cancel", {
       params: {
-        productId: product.productId,
+        productId: productInfo.value.productId,
       },
     })
     .then((res) => {
@@ -49,22 +93,34 @@ function cancelCollect() {
         isShow.value = true;
         // 延迟1s
         setTimeout(() => {
-          location.reload(); // 页面刷新
+          getProductInfo();
           isShow.value = false;
         }, 1000);
       }
     });
-}
+};
 </script>
 
 <template>
-  <!-- page main wrapper start -->
+  <v-alert
+    type="success"
+    variant="tonal"
+    :text="message"
+    style="
+      width: 18%;
+      position: fixed;
+      top: 120px;
+      left: 80%;
+      z-index: 1;
+      min-width: 200px;
+    "
+    :model-value="isShow"
+  ></v-alert>
   <main>
     <div class="product-details-wrapper pt-100 pb-14 pt-sm-58 mt-30">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
-            <!-- product details inner end -->
             <div class="product-details-inner">
               <div class="row">
                 <div class="col-lg-5">
@@ -77,35 +133,32 @@ function cancelCollect() {
                       hide-delimiter-background
                       show-arrows="hover"
                     >
-                      <v-carousel-item v-for="(slide, i) in slides" :key="i">
-                        <v-sheet :color="colors[i]" height="100%">
-                          <div
-                            class="d-flex fill-height justify-center align-center"
-                          >
-                            <div class="text-h2">{{ slide }} Slide</div>
-                          </div>
-                        </v-sheet>
+                      <v-carousel-item
+                        v-for="item in productInfo.productCarouselImg"
+                        :src="item.imgUrl"
+                      >
                       </v-carousel-item>
                     </v-carousel>
                   </div>
                 </div>
                 <div class="col-lg-7">
                   <div class="product-details-des pt-md-98 pt-sm-58">
-                    <h3>Chaz Kangeroo Hoodies</h3>
-                    <div class="pricebox">
-                      <span class="regular-price">$160.00</span>
-                    </div>
-                    <p>
-                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                      sed diam nonumy eirmod tempor invidunt ut labore et dolore
-                      magna aliquyam erat, sed diam voluptua.<br />
-                      Phasellus id nisi quis justo tempus mollis sed et dui. In
-                      hac habitasse platea dictumst. Suspendisse ultrices mauris
-                      diam. Nullam sed aliquet elit. Mauris consequat nisi ut
-                      mauris efficitur lacinia.
+                    <router-link :to="'/business/' + productInfo.businessId">
+                      <h4>{{ productInfo.businessName }}</h4>
+                    </router-link>
+                    <h3 class="pt-3">{{ productInfo.productName }}</h3>
+                    <p class="p-0">
+                      {{ productInfo.productProfile }}
+                    </p>
+                    <p class="p-0">
+                      {{ productInfo.totalSaleAmount }}
+                      人已付款&nbsp;&nbsp;&nbsp;&nbsp;{{
+                        productInfo.collectCount
+                      }}
+                      人已付款
                     </p>
                     <div
-                      class="quantity-cart-box d-flex align-items-center mb-24"
+                      class="quantity-cart-box d-flex align-items-center mb-24 mt-10"
                     >
                       <div class="quantity">
                         <button
@@ -134,31 +187,44 @@ function cancelCollect() {
                         </button>
                       </div>
                       <div class="product-btn product-btn__color">
-                        <a href="#"><i class="ion-bag"></i>Add to cart</a>
+                        <a class="text-white pointer" @click="addCart()"
+                          ><i class="ion-bag"></i>Add to cart</a
+                        >
                         <a
-                          href="#"
-                          class="ml-4"
-                          v-if="isCollect"
+                          class="ml-4 text-white pointer"
+                          v-if="productInfo.isCollect"
                           @click="cancelCollect()"
                           ><i class="bi bi-heart-fill"></i>Remove Collect</a
                         >
-                        <a href="#" class="ml-4" v-else
+                        <a
+                          class="ml-4 pointer text-white"
+                          v-else
+                          @click="addCollect()"
                           ><i class="bi bi-heart"></i>Add to Collect</a
                         >
                       </div>
                     </div>
                     <div class="availability mb-20">
+                      <h5>Price:</h5>
+                      <span class="text-danger">￥{{ spec.sellPrice }}</span> 
+                      <span style="color: #606060;"><del>{{ spec.listPrice }}</del></span>
+                    </div>
+                    <div class="availability mb-20">
                       <h5>Check:</h5>
-                      <span>in stock</span>
+                      <span>{{ spec.specName }}</span>
                     </div>
                     <div class="share-icon">
                       <h5>Specis:</h5>
-                      <v-sheet class="" elevation="8" max-width="800">
-                        <v-slide-group v-model="model" class="pa-0" mandatory>
+                      <v-sheet
+                        class="mx-auto w-75 ml-0"
+                        elevation="8"
+                        max-width="800"
+                      >
+                        <v-slide-group class="pa-0" center-active>
                           <v-slide-group-item
-                            v-for="n in 3"
-                            :key="n"
-                            v-slot="{ isSelected, toggle, selectedClass }"
+                            v-for="spec in productInfo.productSpec"
+                            :key="spec.id"
+                            v-slot="{ toggle, selectedClass }"
                           >
                             <v-card
                               color="grey-lighten-1"
@@ -167,17 +233,10 @@ function cancelCollect() {
                               width="50"
                               @click="toggle"
                             >
-                              <div
-                                class="d-flex fill-height align-center justify-center"
-                              >
-                                <v-scale-transition>
-                                  <v-icon
-                                    v-if="isSelected"
-                                    color="white"
-                                    size="48"
-                                  ></v-icon>
-                                </v-scale-transition>
-                              </div>
+                              <img
+                                :src="spec.specImg"
+                                @click="changeSpec(spec)"
+                              />
                             </v-card>
                           </v-slide-group-item>
                         </v-slide-group>
@@ -187,8 +246,6 @@ function cancelCollect() {
                 </div>
               </div>
             </div>
-            <!-- product details inner end -->
-            <!-- product details reviews start -->
             <div class="product-details-reviews pt-15 pt-sm-30">
               <div class="row">
                 <div class="col-lg-12">
@@ -227,16 +284,14 @@ function cancelCollect() {
                       role="tabpanel"
                       aria-labelledby="nav-all-tab"
                     >
-                      <!-- Single Tab Content Start -->
                       <div
                         class="tab-pane fade show active"
                         id="dashboad"
                         role="tabpanel"
                       >
                         <div class="myaccount-content">
-                          <!-- comment area start -->
                           <div class="comment-section">
-                            <h3>03 comment</h3>
+                            <h3>{{ productInfo.commentCount }} comment</h3>
                             <ul v-for="i in 3">
                               <li>
                                 <div class="author-avatar">
@@ -286,7 +341,6 @@ function cancelCollect() {
                               </li>
                             </ul>
                           </div>
-                          <!-- comment area end -->
                           <div class="contact-message pt-0 sm-20">
                             <div class="col-12">
                               <div class="contact2-textarea text-center">
@@ -310,7 +364,6 @@ function cancelCollect() {
                           </div>
                         </div>
                       </div>
-                      <!-- Single Tab Content End -->
                     </div>
                     <div
                       class="tab-pane fade show active"
@@ -318,7 +371,6 @@ function cancelCollect() {
                       role="tabpanel"
                       aria-labelledby="nav-home-tab"
                     >
-                      <!-- Single Tab Content Start -->
                       <div
                         class="tab-pane fade show active"
                         id="dashboad"
@@ -328,28 +380,22 @@ function cancelCollect() {
                           <div
                             class="blog-thumb img-full mt-1"
                             style="width: 95%; margin: 0 auto"
-                            v-for="i in 5"
+                            v-for="item in productInfo.productDetailImg"
                           >
-                            <img
-                              src="@/assets/img/blog/blog-large-2.jpg"
-                              alt=""
-                            />
+                            <img :src="item.imgUrl" />
                           </div>
                         </div>
                       </div>
-                      <!-- Single Tab Content End -->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- product details reviews end -->
           </div>
         </div>
       </div>
     </div>
   </main>
-  <!-- page main wrapper end -->
 </template>
 
 <style scoped>
@@ -368,4 +414,11 @@ function cancelCollect() {
   color: #fff;
   border: #ff7e67 solid 1px;
 }
+.pointer:hover {
+  cursor: pointer;
+}
+
+
+
+
 </style>
