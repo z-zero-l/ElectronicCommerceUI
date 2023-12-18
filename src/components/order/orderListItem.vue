@@ -23,25 +23,54 @@ const props = defineProps({ orderListItem: Object });
         </router-link>
         <div style="color: #a9a9a9">
           <div>
-            <div style="display: inline-block; width: 70%;">
+            <div style="display: inline-block; width: 90%">
               <span class="old-price">{{ props.orderListItem.specName }}</span>
-            <span
-              class="old-price"
-              style="display: inline-block; font-size: 14px; margin-left: 10px"
-              >￥{{ props.orderListItem.price }}</span
-            >
-            <span
-              class="regular-price"
-              style="display: inline-block; margin-left: 10px"
-              >×{{ props.orderListItem.amount }}        
-            </span>
+              <span
+                class="old-price"
+                style="
+                  display: inline-block;
+                  font-size: 14px;
+                  margin-left: 10px;
+                "
+                >￥{{ props.orderListItem.price }}</span
+              >
+              <span
+                class="regular-price"
+                style="display: inline-block; margin-left: 10px"
+                >×{{ props.orderListItem.amount }}
+              </span>
             </div>
-            <div style="display: inline-block; margin-left: 165px;">
-              <span class="old-price" style="color: #ff7e67 ;" v-if="props.orderListItem.status===0">待付款</span>
-              <span class="old-price" style="color: #ff7e67 ;" v-if="props.orderListItem.status===1">待发货</span>
-              <span class="old-price" style="color: #ff7e67 ;" v-if="props.orderListItem.status===2">待收货</span>
-              <span class="old-price" style="color: #ff7e67 ;" v-if="props.orderListItem.status===3">待评价</span>
-              <span class="old-price" style="color: #ff7e67 ;" v-if="props.orderListItem.status===5">已取消</span>
+            <div style="display: inline-block;">
+              <span
+                class="old-price"
+                style="color: #ff7e67"
+                v-if="props.orderListItem.status === 0"
+                >待付款</span
+              >
+              <span
+                class="old-price"
+                style="color: #ff7e67"
+                v-if="props.orderListItem.status === 1"
+                >待发货</span
+              >
+              <span
+                class="old-price"
+                style="color: #ff7e67"
+                v-if="props.orderListItem.status === 2"
+                >待收货</span
+              >
+              <span
+                class="old-price"
+                style="color: #ff7e67"
+                v-if="props.orderListItem.status === 3"
+                >待评价</span
+              >
+              <span
+                class="old-price"
+                style="color: #ff7e67"
+                v-if="props.orderListItem.status === 5"
+                >已取消</span
+              >
             </div>
           </div>
           <div style="float: right; margin: 20px 10px 0">
