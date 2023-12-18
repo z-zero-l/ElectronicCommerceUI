@@ -97,6 +97,12 @@ export const router = createRouter({
       name: "pay",
       component: () => import("@/views/pay/pay.vue"),
     },
+    // 结算
+    {
+      path: "/paid",
+      name: "paid",
+      component: () => import("@/views/pay/paid.vue"),
+    },
   ],
 });
 
