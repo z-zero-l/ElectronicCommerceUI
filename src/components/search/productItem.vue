@@ -1,24 +1,51 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+// 组件传参接收
+const props = defineProps({ productList: Array });
+// 每行展示商品数
+const rowItemSize = ref(4);
+</script>
 
 <template>
-  <div class="col mt-3">
-    <div class="product-item mb-20" style="max-width: 90%; ">
-      <div class="product-thumb">
-        <a href="product-details.html">
-          <img src="@/assets/img/product/product-2.jpg" alt="product image">
-        </a>
-      </div>
-      <div class="product-description text-center">
-        <div class="manufacturer">
-          <p><a href="product-details.html">Fashion Manufacturer</a></p>
+  <div
+    class="row product-carousel-one spt slick-arrow-style"
+    v-for="r in parseInt(props.productList.length / rowItemSize + 1)"
+    :key="r"
+  >
+    <div
+      class="col-3 mt-3"
+      v-for="product in props.productList.slice(4 * (r - 1), 4 * (r - 1) + 4)"
+      :key="product.productId"
+    >
+      <router-link :to="'/product/' + product.productId">
+        <div class="product-item mb-20" style="max-width: 90%">
+          <div class="product-thumb">
+            <a href="product-details.html">
+              <img :src="product.productCover" alt="product image" />
+            </a>
+          </div>
+          <div class="product-description text-center">
+            <div class="manufacturer">
+              <router-link :to="'/business/' + product.businessId">
+                <p>
+                  <a href="#">{{ product.business }}</a>
+                </p>
+              </router-link>
+            </div>
+            <div class="product-name">
+              <h3 style="font-size: 14px; padding: 0">
+                <a href="#">{{ product.productName }}</a>
+              </h3>
+            </div>
+            <div class="price-box">
+              <span class="old-price">￥{{ product.price }}</span>
+              <span class="old-price"
+                >{{ product.totalSaleAmount }} 人已付款</span
+              >
+            </div>
+          </div>
         </div>
-        <div class="product-name">
-          <h3 style="font-size: 14px; padding: 0;"><a href="product-details.html">Crown Backpacks</a></h3>
-        </div>
-        <div class="price-box ">
-          <span class="old-price ">$80.00</span>
-        </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
