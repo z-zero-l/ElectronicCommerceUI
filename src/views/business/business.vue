@@ -12,25 +12,13 @@ onMounted(() => {
 // 获取店铺信息
 const businessInfo = ref({});
 const productList = ref([]);
+const keyword = ref("");
 const getBusinessInfo = async () => {
-  service.get("/business/" + route.params.id).then((res) => {
-    businessInfo.value = res.data.data;
-    productList.value = res.data.data.productList;
-  });
-};
-
-// 搜索店铺商品
-const searchKeyWord = ref("");
-const searchBusinessProducts = async () => {
   service
-    .get("/business/search", {
-      params: {
-        keyword: searchKeyWord.value,
-      },
-    })
+    .get("/business/" + route.params.id + "?keyword=" + keyword.value)
     .then((res) => {
-      console.log(res.data.data);
-      // productList.value = res.data.data
+      businessInfo.value = res.data.data;
+      productList.value = res.data.data.productList;
     });
 };
 </script>
@@ -42,11 +30,12 @@ const searchBusinessProducts = async () => {
           <div class="col-lg-9 col-md-8"></div>
           <div class="myaccount-content">
             <div style="display: flex; justify-content: space-between">
-              <div style="display: flex">
+              <div style="display: flex ;" >
                 <img
-                  class="img-thumbnail"
+                  class="img-thumbnail all"
                   :src="businessInfo.businessAvatar"
-                  style="border-radius: 50%; width: 80px; height: 80px"
+                  style="border-radius: 50%; width: 80px; height: 80px;"
+                  @click="keyword='';getBusinessInfo();"
                 />
                 <h3 style="padding: 26px 8px 10px 10px">
                   {{ businessInfo.businessName }}
@@ -60,12 +49,9 @@ const searchBusinessProducts = async () => {
                       class="form-control"
                       placeholder="Search"
                       aria-label="Search"
-                      v-model="searchKeyWord"
+                      v-model="keyword"
                     />
-                    <div
-                      class="input-group-append"
-                      @click="searchBusinessProducts()"
-                    >
+                    <div class="input-group-append" @click="getBusinessInfo()">
                       <span class="input-group-text search-btn"
                         ><i class="bi bi-search"></i
                       ></span>
@@ -87,10 +73,15 @@ const searchBusinessProducts = async () => {
 </template>
 
 <style scoped>
-.search-btn:hover{
+.search-btn:hover {
   cursor: pointer;
   background-color: #ff7e67;
   color: #fff;
 }
+.all:hover{
+  cursor: pointer;
+}
+
+
 
 </style>
