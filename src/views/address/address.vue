@@ -1,7 +1,6 @@
 <script setup>
 import service from "@/utils/request.js";
 import { ref, onMounted } from "vue";
-import AddressItem from "@/components/address/addressItem.vue";
 import { area } from "@/utils/area-data.js";
 import { getProvinceByCode, codeToName } from "@/utils/area-function.js";
 
@@ -33,6 +32,8 @@ function changeAddress(item) {
   addressForm.value.districtCode = item.districtCode;
   addressForm.value.address = item.address;
   addressForm.value.isDefault = item.isDefault;
+  getProvince(addressForm.value.provinceCode);
+  getCity(addressForm.value.cityCode);
 }
 
 // 改变省市区
@@ -56,7 +57,7 @@ function getProvince(code) {
 const cityInfo = ref([]);
 function getCity(code) {
   cityInfo.value = provinceInfo.value.children.find(
-    (item) => item.code === code
+    (item) => item.code === code.toString()
   );
 }
 
@@ -137,14 +138,20 @@ const removeAddress = async (addressId) => {
 </script>
 
 <template>
-  <v-alert :type="type" variant="tonal" :text="message" style="
+  <v-alert
+    :type="type"
+    variant="tonal"
+    :text="message"
+    style="
       width: 18%;
       position: fixed;
       top: 120px;
       left: 80%;
       z-index: 1;
       min-width: 200px;
-    " :model-value="isShow"></v-alert>
+    "
+    :model-value="isShow"
+  ></v-alert>
   <main>
     <div class="login-register-wrapper pt-140 pb-100 pt-sm-58 pb-sm-58">
       <div class="container">
@@ -176,15 +183,27 @@ const removeAddress = async (addressId) => {
                               item.districtCode
                             )
                           }}{{ item.address }}
-                          <i class="bi bi-yelp" style="color: #ff7e67" v-if="item.isDefault == 1"></i>
+                          <i
+                            class="bi bi-yelp"
+                            style="color: #ff7e67"
+                            v-if="item.isDefault == 1"
+                          ></i>
                         </td>
                         <td style="width: 50px">
-                          <span class="check-btn sqr-btn" style="padding: 2px; width: 20px; height: 25px"
-                            @click="removeAddress(item.id)"><i class="bi bi-x"></i></span>
+                          <span
+                            class="check-btn sqr-btn"
+                            style="padding: 2px; width: 20px; height: 25px"
+                            @click="removeAddress(item.id)"
+                            ><i class="bi bi-x"></i
+                          ></span>
                         </td>
                         <td style="width: 50px">
-                          <span @click="changeAddress(item)" class="check-btn sqr-btn"
-                            style="padding: 2px; width: 20px; height: 25px"><i class="bi bi-arrow-right-short"></i></span>
+                          <span
+                            @click="changeAddress(item)"
+                            class="check-btn sqr-btn"
+                            style="padding: 2px; width: 20px; height: 25px"
+                            ><i class="bi bi-arrow-right-short"></i
+                          ></span>
                         </td>
                       </tr>
                     </tbody>
@@ -198,67 +217,108 @@ const removeAddress = async (addressId) => {
                 <h2 style="margin-top: 20px">Form</h2>
                 <form>
                   <div class="single-input-item">
-                    <input type="text" placeholder="收货人" required v-model="addressForm.receiver" />
+                    <input
+                      type="text"
+                      placeholder="收货人"
+                      required
+                      v-model="addressForm.receiver"
+                    />
                   </div>
                   <div class="single-input-item">
-                    <input placeholder="联系方式" required v-model="addressForm.contact" />
+                    <input
+                      placeholder="联系方式"
+                      required
+                      v-model="addressForm.contact"
+                    />
                   </div>
                   <div class="single-input-item d-flex justify-content-between">
-                    <select class="form-select mt-0" style="
+                    <!-- 省 -->
+                    <select
+                      class="form-select mt-0"
+                      style="
                         height: 49px;
                         width: 32%;
                         display: inline-block;
                         background-color: #f7f7f7;
                         border: 1px solid #cccccc;
                         border-radius: 0;
-                      " 
-                      v-model="addressForm.provinceCode" 
-                      @change="provinceChange">
+                      "
+                      v-model="addressForm.provinceCode"
+                      @change="provinceChange"
+                    >
                       <option v-for="province in area" :value="province.code">
                         {{ province.name }}
                       </option>
                     </select>
-                    <select class="form-select mt-0" style="
+                    <!-- 市 -->
+                    <select
+                      class="form-select mt-0"
+                      style="
                         height: 49px;
                         width: 32%;
                         display: inline-block;
                         background-color: #f7f7f7;
                         border: 1px solid #cccccc;
                         border-radius: 0;
-                      " 
-                      :disabled="addressForm.provinceCode == 0" 
-                      @click="getProvince(addressForm.provinceCode)" 
-                      @change="cityChange">
-                      <option v-for="city in provinceInfo.children" :value="city.code">
+                      "
+                      :disabled="addressForm.provinceCode == 0"
+                      @click="getProvince(addressForm.provinceCode)"
+                      @change="cityChange"
+                      v-model="addressForm.cityCode"
+                    >
+                      <option
+                        v-for="city in provinceInfo.children"
+                        :value="city.code"
+                      >
                         {{ city.name }}
                       </option>
                     </select>
-                    <select class="form-select mt-0" style="
+                    <select
+                      class="form-select mt-0"
+                      style="
                         height: 49px;
                         width: 32%;
                         display: inline-block;
                         background-color: #f7f7f7;
                         border: 1px solid #cccccc;
                         border-radius: 0;
-                      " 
+                      "
                       :disabled="addressForm.cityCode == 0"
-                      @click="getCity(addressForm.cityCode)" 
-                      @change="districtChange">
-                      <option v-for="district in cityInfo.children" :value="district.code">
+                      @click="getCity(addressForm.cityCode)"
+                      @change="districtChange"
+                      v-model="addressForm.districtCode"
+                    >
+                      <option
+                        v-for="district in cityInfo.children"
+                        :value="district.code"
+                      >
                         {{ district.name }}
                       </option>
                     </select>
                   </div>
                   <div class="single-input-item">
-                    <input placeholder="详细地址" required v-model="addressForm.address" />
+                    <input
+                      placeholder="详细地址"
+                      required
+                      v-model="addressForm.address"
+                    />
                   </div>
                   <div class="single-input-item">
                     <div class="login-reg-form-meta">
                       <div class="remember-meta">
                         <div class="custom-control custom-checkbox">
-                          <input type="checkbox" class="custom-control-input" id="subnewsletter"
-                            :checked="addressForm.isDefault == 1" v-model="addressForm.isDefault" />
-                          <label class="custom-control-label" for="subnewsletter">默认地址</label>
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            id="subnewsletter"
+                            :checked="addressForm.isDefault == 1"
+                            v-model="addressForm.isDefault"
+                          />
+                          <label
+                            class="custom-control-label"
+                            for="subnewsletter"
+                            >默认地址</label
+                          >
                         </div>
                       </div>
                     </div>
@@ -267,11 +327,15 @@ const removeAddress = async (addressId) => {
                     <button class="sqr-btn" @click="submitAddress()">
                       SAVE
                     </button>
-                    <button type="reset" class="sqr-btn" style="
+                    <button
+                      type="reset"
+                      class="sqr-btn"
+                      style="
                         float: right;
                         color: #ff7e67;
                         background-color: #fff;
-                      ">
+                      "
+                    >
                       CLEAR
                     </button>
                   </div>

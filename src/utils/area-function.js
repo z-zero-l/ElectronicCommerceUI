@@ -1,7 +1,7 @@
 import { area } from "@/utils/area-data.js";
 // 根据code获取省份信息
 export function getProvinceByCode(code) {
-  return area.find((item) => item.code === code);
+  return area.find((item) => item.code === code.toString());
 }
 
 // 省市区code转name
