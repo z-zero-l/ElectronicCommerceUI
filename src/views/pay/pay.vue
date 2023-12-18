@@ -118,7 +118,7 @@ const toPay = async () => {
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th style="background-color: #ff7e67">Thumbnail</th>
+                    <th style="background-color: #ff7e67" class="pro-thumbnail">Thumbnail</th>
                     <th style="background-color: #ff7e67">Products</th>
                     <th style="background-color: #ff7e67">Quantity</th>
                     <th style="background-color: #ff7e67">Total</th>
@@ -128,7 +128,6 @@ const toPay = async () => {
                   <tr>
                     <td>
                       <img
-                        class="img-fluid"
                         :src="item.specImg"
                         alt="Product"
                       />
