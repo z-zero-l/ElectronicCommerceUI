@@ -11,16 +11,16 @@ const props = defineProps({ orderListItem: Object });
         </a>
       </div>
       <div class="product-list-content mt-2" style="width: 90%">
-        <router-link :to="'/business/' + props.orderListItem.businessId">
-          <h4>
+        <h4>
+          <router-link :to="'/business/' + props.orderListItem.businessId">
             <a href="#">{{ props.orderListItem.businessName }}</a>
-          </h4>
-        </router-link>
-        <router-link :to="'/product/' + props.orderListItem.productId">
-          <h3 style="margin-bottom: 15px">
+          </router-link>
+        </h4>
+        <h3 style="margin-bottom: 15px">
+          <router-link :to="'/product/' + props.orderListItem.productId">
             <a href="#">{{ props.orderListItem.productName }}</a>
-          </h3>
-        </router-link>
+          </router-link>
+        </h3>
         <div style="color: #a9a9a9">
           <div>
             <div style="display: inline-block; width: 90%">
@@ -40,7 +40,7 @@ const props = defineProps({ orderListItem: Object });
                 >×{{ props.orderListItem.amount }}
               </span>
             </div>
-            <div style="display: inline-block;">
+            <div style="display: inline-block">
               <span
                 class="old-price"
                 style="color: #ff7e67"
