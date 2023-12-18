@@ -5712,12 +5712,7 @@ only screen and (min-width: 768px) and (max-width: 991px) {
     display: -ms-flexbox;
     display: flex;
     padding: 10px 20px;
-    margin-bottom: 30px;
     border: 1px solid #e5e5e5;
-}
-
-.comment-section ul li:last-child {
-    margin-bottom: 5px;
 }
 
 @media only screen and (max-width: 479px) {

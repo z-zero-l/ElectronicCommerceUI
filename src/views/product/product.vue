@@ -6,6 +6,7 @@ const route = useRoute();
 
 onMounted(() => {
   getProductInfo();
+  getCommentList();
 });
 
 // 消息提示
@@ -17,11 +18,17 @@ const productInfo = ref({});
 const getProductInfo = async () => {
   service.get("/product/info/" + route.params.id).then((res) => {
     productInfo.value = res.data.data;
-    console.log(res.data.data);
   });
 };
 
 // 获取评论列表
+const commentList = ref([]);
+const getCommentList = async () => {
+  service.get("/comment/list?productId=" + route.params.id).then((res) => {
+    commentList.value = res.data.data;
+    console.log(commentList.value);
+  });
+};
 
 // 选中规格
 const spec = ref({});
@@ -206,8 +213,10 @@ const cancelCollect = async () => {
                     </div>
                     <div class="availability mb-20">
                       <h5>Price:</h5>
-                      <span class="text-danger">￥{{ spec.sellPrice }}</span> 
-                      <span style="color: #606060;"><del>{{ spec.listPrice }}</del></span>
+                      <span class="text-danger">￥{{ spec.sellPrice }}</span>
+                      <span style="color: #606060"
+                        ><del>{{ spec.listPrice }}</del></span
+                      >
                     </div>
                     <div class="availability mb-20">
                       <h5>Check:</h5>
@@ -292,50 +301,42 @@ const cancelCollect = async () => {
                         <div class="myaccount-content">
                           <div class="comment-section">
                             <h3>{{ productInfo.commentCount }} comment</h3>
-                            <ul v-for="i in 3">
-                              <li>
+                            <ul v-for="comment in commentList">
+                              <li class="mt-5">
                                 <div class="author-avatar">
-                                  <img
-                                    src="@/assets/img/blog/comment-icon.png"
-                                    alt=""
-                                  />
+                                  <img :src="comment.avatar" />
                                 </div>
                                 <div class="comment-body">
                                   <span class="reply-btn"
                                     ><a href="#">reply</a></span
                                   >
-                                  <h5 class="comment-author">admin</h5>
+                                  <h5 class="comment-author">
+                                    {{ comment.userName }}
+                                  </h5>
                                   <div class="comment-post-date">
-                                    20 nov, 2018 at 9:30pm
+                                    {{ comment.createTime }}
                                   </div>
                                   <p>
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Enim maiores adipisci
-                                    optio ex, laboriosam facilis non pariatur
-                                    itaque illo sunt?
+                                    {{ comment.commentContent }}
                                   </p>
                                 </div>
                               </li>
-                              <li class="comment-children">
+                              <li
+                                class="comment-children mt-1"
+                                v-for="reply in comment.replyList"
+                              >
                                 <div class="author-avatar">
-                                  <img
-                                    src="@/assets/img/blog/comment-icon.png"
-                                    alt=""
-                                  />
+                                  <img :src="reply.avatar" />
                                 </div>
                                 <div class="comment-body">
-                                  <span class="reply-btn"
-                                    ><a href="#">reply</a></span
-                                  >
-                                  <h5 class="comment-author">admin</h5>
+                                  <h5 class="comment-author">
+                                    {{ reply.userName }}
+                                  </h5>
                                   <div class="comment-post-date">
-                                    20 nov, 2018 at 9:30pm
+                                    {{ reply.createTime }}
                                   </div>
                                   <p>
-                                    Lorem ipsum dolor sit amet consectetur
-                                    adipisicing elit. Enim maiores adipisci
-                                    optio ex, laboriosam facilis non pariatur
-                                    itaque illo sunt?
+                                    {{ reply.commentContent }}
                                   </p>
                                 </div>
                               </li>
@@ -417,6 +418,10 @@ const cancelCollect = async () => {
 .pointer:hover {
   cursor: pointer;
 }
+
+
+
+
 
 
 
