@@ -5,16 +5,21 @@ import service from "@/utils/request.js";
 import OrderListItem from "@/components/order/orderListItem.vue";
 
 onMounted(() => {
-  getOrderList();
+  getOrderList(0);
 });
 
 // 获取订单详情
 const orderList = ref([]);
-const getOrderList = async () => {
-  service.get("/order/list").then((res) => {
+const getOrderList = async (status) => {
+  if(status ==undefined){
+    service.get("/order/list?status=").then((res) => {
     orderList.value = res.data.data;
-    console.log(orderList.value);
   });
+  }else{
+    service.get("/order/list?status=" + status).then((res) => {
+    orderList.value = res.data.data;
+  });
+  }
 };
 </script>
 
@@ -23,17 +28,44 @@ const getOrderList = async () => {
     <div class="container mt-20">
       <nav>
         <div class="nav nav-tabs" role="tablist">
-          <button class="nav-link" data-bs-toggle="tab" role="tab">全部</button>
-          <button class="nav-link active" data-bs-toggle="tab" role="tab">
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            role="tab"
+            @click="getOrderList()"
+          >
+            全部
+          </button>
+          <button
+            class="nav-link active"
+            data-bs-toggle="tab"
+            role="tab"
+            @click="getOrderList(0)"
+          >
             待支付
           </button>
-          <button class="nav-link" data-bs-toggle="tab" role="tab">
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            role="tab"
+            @click="getOrderList(1)"
+          >
             待发货
           </button>
-          <button class="nav-link" data-bs-toggle="tab" role="tab">
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            role="tab"
+            @click="getOrderList(2)"
+          >
             待收货
           </button>
-          <button class="nav-link" data-bs-toggle="tab" role="tab">
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            role="tab"
+            @click="getOrderList(3)"
+          >
             待评价
           </button>
         </div>
@@ -75,5 +107,4 @@ const getOrderList = async () => {
   border: 1px solid #ff7e67;
   margin-top: 1px;
 }
-
 </style>
