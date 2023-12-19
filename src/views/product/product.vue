@@ -12,12 +12,14 @@ onMounted(() => {
 // 消息提示
 const message = ref("");
 const isShow = ref(false);
+const type = ref("success");
 
 // 获取商品信息
 const productInfo = ref({});
 const getProductInfo = async () => {
   service.get("/product/info/" + route.params.id).then((res) => {
     productInfo.value = res.data.data;
+    console.log(productInfo.value);
   });
 };
 
@@ -45,28 +47,45 @@ function decrease() {
   quantity.value--;
 }
 function check() {
-  if (!(quantity.value > 0 && quantity < 1000)) {
+  if (quantity.value < 0 || quantity > 1000) {
     quantity.value = 1;
   }
 }
 
 // 加入购物车
 const addCart = async () => {
-  service
-    .post("/cart/add", {
-      id: spec.value.id,
-      count: quantity.value,
-    })
-    .then((res) => {
-      if (res.data.code == 200) {
-        message.value = "加入购物车成功~";
-        isShow.value = true;
-        // 延迟1s
-        setTimeout(() => {
-          isShow.value = false;
-        }, 1000);
-      }
-    });
+  if (spec.value.id == null) {
+    message.value = "请选择商品规格";
+    type.value = "error";
+    isShow.value = true;
+    setTimeout(() => {
+      isShow.value = false;
+    }, 1000);
+  } else if (spec.value.stock < quantity.value) {
+    message.value = "库存仅剩" + spec.value.stock + ",请修改购买数量";
+    type.value = "error";
+    isShow.value = true;
+    setTimeout(() => {
+      isShow.value = false;
+      type.value = "success";
+    }, 2000);
+  } else {
+    service
+      .post("/cart/add", {
+        id: spec.value.id,
+        count: quantity.value,
+      })
+      .then((res) => {
+        if (res.data.code == 200) {
+          message.value = "加入购物车成功~";
+          isShow.value = true;
+          setTimeout(() => {
+            isShow.value = false;
+            type.value = "success";
+          }, 1000);
+        }
+      });
+  }
 };
 
 // 加入收藏
@@ -97,11 +116,13 @@ const cancelCollect = async () => {
     .then((res) => {
       if (res.data.code == 200) {
         message.value = "取消收藏成功~";
+        type.value = "info";
         isShow.value = true;
         // 延迟1s
         setTimeout(() => {
           getProductInfo();
           isShow.value = false;
+          type.value = "success";
         }, 1000);
       }
     });
@@ -110,7 +131,7 @@ const cancelCollect = async () => {
 
 <template>
   <v-alert
-    type="success"
+    :type="type"
     variant="tonal"
     :text="message"
     style="
@@ -307,9 +328,6 @@ const cancelCollect = async () => {
                                   <img :src="comment.avatar" />
                                 </div>
                                 <div class="comment-body">
-                                  <span class="reply-btn"
-                                    ><a href="#">reply</a></span
-                                  >
                                   <h5 class="comment-author">
                                     {{ comment.userName }}
                                   </h5>
@@ -341,27 +359,6 @@ const cancelCollect = async () => {
                                 </div>
                               </li>
                             </ul>
-                          </div>
-                          <div class="contact-message pt-0 sm-20">
-                            <div class="col-12">
-                              <div class="contact2-textarea text-center">
-                                <textarea
-                                  placeholder="Message *"
-                                  name="message"
-                                  class="form-control2"
-                                  required=""
-                                ></textarea>
-                              </div>
-                              <div class="contact-btn text-center">
-                                <button
-                                  class="check-btn sqr-btn"
-                                  type="submit"
-                                  style="color: white"
-                                >
-                                  Send Message
-                                </button>
-                              </div>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -418,6 +415,10 @@ const cancelCollect = async () => {
 .pointer:hover {
   cursor: pointer;
 }
+
+
+
+
 
 
 
