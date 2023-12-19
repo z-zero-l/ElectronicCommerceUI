@@ -1,18 +1,27 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import service from "@/utils/request.js";
+import { codeToName } from "@/utils/area-function.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 onMounted(() => {
-  countdown();
   getOrderDetail();
 });
 
 // 获取订单信息
-const getOrderDetail = ()=>{
-  service.get("/order/detail?orderId="+window.localStorage.getItem("orderId")).then((res=>{
-    console.log(res.data.data)
-  }))
-}
+const orderDetail = ref({});
+const addressDetail=ref("")
+const getOrderDetail = () => {
+  service
+    .get("/order/detail?orderId=" + window.localStorage.getItem("orderId"))
+    .then((res) => {
+      orderDetail.value = res.data.data;
+      console.log(orderDetail.value);
+      addressDetail.value=codeToName(orderDetail.value.provinceCode,orderDetail.value.cityCode,orderDetail.value.districtCode)+orderDetail.value.address
+      countdown();
+    });
+};
 
 // 取消理由
 const cancelReason = [
@@ -21,7 +30,7 @@ const cancelReason = [
   "收货地址拍错",
   "规格/款式拍错",
   "暂时不需要了",
-  "其他"
+  "其他",
 ];
 
 //倒计时
@@ -29,11 +38,14 @@ const min = ref(0);
 const sec = ref(0);
 const countdown = () => {
   const now = Date.parse(new Date());
-  const end = Date.parse(new Date("2023-12-18 16:40:23"));
-  const fifteen = 900000;
-  const msec = end + fifteen - now;
+  const end = Date.parse(new Date(orderDetail.value.payLatestTime));
+  const msec = end - now;
 
   if (msec < 0) return;
+
+  if (orderDetail.countdown < 0) {
+    router.push({ path: "/order" });
+  }
 
   min.value = parseInt((msec / 1000 / 60) % 60);
   sec.value = parseInt((msec / 1000) % 60);
@@ -48,6 +60,18 @@ const countdown = () => {
       countdown();
     }, 1000);
   }
+};
+
+// 支付
+const pay = () => {
+  service
+    .post("/order/pay?orderId=" + window.localStorage.getItem("orderId"))
+    .then((res) => {
+      console.log(res.data);
+      if (res.data.code == 200) {
+        // router.push({ path: "/order" }); 
+      }
+    });
 };
 </script>
 <template>
@@ -69,7 +93,7 @@ const countdown = () => {
                 <span style="color: #000; font-size: 18px; margin: 30px"
                   >地址</span
                 >
-                <span style="color: #000">1111111111</span>
+                <span style="color: #ff7e67">{{ addressDetail }}</span>
               </h3>
             </div>
           </div>
@@ -82,7 +106,7 @@ const countdown = () => {
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th class="pro-thumbnail">Thumbnail</th>
+                    <th style="width: 140px">Thumbnail</th>
                     <th>Products</th>
                     <th>Quantity</th>
                     <th>Total</th>
@@ -90,12 +114,12 @@ const countdown = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td><img /></td>
-                    <td>衣服-白色</td>
-                    <td>× 1</td>
-                    <td>￥100+10</td>
-                    <td>快递要邮政哦</td>
+                  <tr v-for="item in orderDetail.orderItemVOList">
+                    <td><img :src="item.specImage" /></td>
+                    <td>{{ item.productName }} - {{ item.specName }}</td>
+                    <td>× {{ item.amount }}</td>
+                    <td>￥{{ item.price }}+{{ item.freight }}</td>
+                    <td>{{ item.remark }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -133,8 +157,10 @@ const countdown = () => {
         style="display: float; float: right; width: 30%"
       >
         <div class="cart-update ml-auto">
-          <span class="sqr-btn-f" style="margin-top: 30px">合计: ￥1000元</span>
-          <a href="#" class="sqr-btn">支付</a>
+          <span class="sqr-btn-f" style="margin-top: 30px"
+            >合计: ￥{{ orderDetail.payment }}元</span
+          >
+          <a class="sqr-btn text-white" @click="pay()">支付</a>
         </div>
       </div>
     </div>
