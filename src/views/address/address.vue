@@ -18,6 +18,7 @@ const addressList = ref([]);
 const getAddressList = async () => {
   service.get("/address/list").then((res) => {
     addressList.value = res.data.data;
+    console.log(addressList.value);
   });
 };
 
