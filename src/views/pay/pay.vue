@@ -10,6 +10,11 @@ onMounted(() => {
   getAddressList();
 });
 
+// 消息提示
+const message = ref("");
+const isShow = ref(false);
+const type = ref("success");
+
 // 传参列表
 const list = ref([]);
 
@@ -36,6 +41,9 @@ const addressList = ref([]);
 const getAddressList = async () => {
   service.get("/address/list").then((res) => {
     addressList.value = res.data.data;
+    if (addressList.value.length > 0) {
+      addressId.value = addressList.value[0].id;
+    }
   });
 };
 
@@ -55,21 +63,47 @@ const totalPrice = computed(() => {
   }, 0);
 });
 
-// 去支付
+// 下单
 const toPay = async () => {
-  service
-    .post("/order/submit?addressId=" + addressId.value, list.value)
-    .then((res) => {
-      if (res.data.code == 200) {
-        // 延迟1s跳转
-        setTimeout(() => {
-          router.push({ path: "/paid" });
-        }, 1000);
-      }
-    });
+  console.log(addressId.value);
+  if (addressId.value == null || addressId.value == "") {
+    message.value = "请选择地址";
+    type.value = "error";
+    isShow.value = true;
+    setTimeout(() => {
+      isShow.value = false;
+      type.value = "success";
+    }, 1000);
+  } else {
+    service
+      .post("/order/submit?addressId=" + addressId.value, list.value)
+      .then((res) => {
+        window.localStorage.setItem("order", res.data.data);
+        if (res.data.code == 200) {
+          // 延迟1s跳转
+          setTimeout(() => {
+            router.push({ path: "/paid" });
+          }, 1000);
+        }
+      });
+  }
 };
 </script>
 <template>
+  <v-alert
+    :type="type"
+    variant="tonal"
+    :text="message"
+    style="
+      width: 18%;
+      position: fixed;
+      top: 120px;
+      left: 80%;
+      z-index: 1;
+      min-width: 200px;
+    "
+    :model-value="isShow"
+  ></v-alert>
   <div class="checkout-page-wrapper pt-120 pb-90 pt-sm-58 pb-sm-54">
     <div class="container">
       <div class="row">
@@ -93,6 +127,7 @@ const toPay = async () => {
                   "
                   aria-label="Default select example"
                   @change="addressChange"
+                  v-model="addressId"
                 >
                   <option selected></option>
                   <option :value="address.id" v-for="address in addressList">
@@ -108,6 +143,10 @@ const toPay = async () => {
                     }}{{ address.address }}
                   </option>
                 </select>
+                <router-link to="/address"
+                  ><a href="#" class="ml-5 fs-6" style="color: #ff7e67"
+                    >地址管理<i class="bi bi-arrow-right-short"></i></a
+                ></router-link>
               </h3>
             </div>
           </div>
@@ -120,7 +159,9 @@ const toPay = async () => {
               <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th style="background-color: #ff7e67" class="pro-thumbnail">Thumbnail</th>
+                    <th style="background-color: #ff7e67" class="pro-thumbnail">
+                      Thumbnail
+                    </th>
                     <th style="background-color: #ff7e67">Products</th>
                     <th style="background-color: #ff7e67">Quantity</th>
                     <th style="background-color: #ff7e67">Total</th>
@@ -129,10 +170,7 @@ const toPay = async () => {
                 <tbody>
                   <tr>
                     <td>
-                      <img
-                        :src="item.specImg"
-                        alt="Product"
-                      />
+                      <img :src="item.specImg" alt="Product" />
                     </td>
                     <td>{{ item.productName }} - {{ item.specName }}</td>
                     <td>× {{ item.quantity }}</td>
@@ -164,7 +202,7 @@ const toPay = async () => {
           <span class="sqr-btn-f" style="margin-top: 30px"
             >合计: ￥{{ totalPrice }}元</span
           >
-          <span class="sqr-btn" @click="toPay()">去支付</span>
+          <span class="sqr-btn" @click="toPay()">下单</span>
         </div>
       </div>
     </div>
