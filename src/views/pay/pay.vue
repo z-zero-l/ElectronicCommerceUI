@@ -2,6 +2,8 @@
 import service from "@/utils/request.js";
 import { ref, onMounted, computed } from "vue";
 import { codeToName } from "@/utils/area-function.js";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 onMounted(() => {
   getCartList();
