@@ -19,7 +19,6 @@ const productInfo = ref({});
 const getProductInfo = async () => {
   service.get("/product/info/" + route.params.id).then((res) => {
     productInfo.value = res.data.data;
-    console.log(productInfo.value);
   });
 };
 
@@ -28,7 +27,6 @@ const commentList = ref([]);
 const getCommentList = async () => {
   service.get("/comment/list?productId=" + route.params.id).then((res) => {
     commentList.value = res.data.data;
-    console.log(commentList.value);
   });
 };
 
@@ -413,6 +411,7 @@ const cancelCollect = async () => {
 .pointer:hover {
   cursor: pointer;
 }
+
 
 
 
