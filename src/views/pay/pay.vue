@@ -65,7 +65,6 @@ const totalPrice = computed(() => {
 
 // 下单
 const toPay = async () => {
-  console.log(addressId.value);
   if (addressId.value == null || addressId.value == "") {
     message.value = "请选择地址";
     type.value = "error";
@@ -78,7 +77,7 @@ const toPay = async () => {
     service
       .post("/order/submit?addressId=" + addressId.value, list.value)
       .then((res) => {
-        window.localStorage.setItem("order", res.data.data);
+        window.localStorage.setItem("orderId", res.data.data);
         if (res.data.code == 200) {
           // 延迟1s跳转
           setTimeout(() => {

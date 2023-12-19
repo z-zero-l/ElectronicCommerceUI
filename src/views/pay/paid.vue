@@ -1,9 +1,18 @@
 <script setup>
 import { ref, onMounted } from "vue";
+import service from "@/utils/request.js";
 
 onMounted(() => {
   countdown();
+  getOrderDetail();
 });
+
+// 获取订单信息
+const getOrderDetail = ()=>{
+  service.get("/order/detail?orderId="+window.localStorage.getItem("orderId")).then((res=>{
+    console.log(res.data.data)
+  }))
+}
 
 // 取消理由
 const cancelReason = [
@@ -23,12 +32,9 @@ const countdown = () => {
   const end = Date.parse(new Date("2023-12-18 16:40:23"));
   const fifteen = 900000;
   const msec = end + fifteen - now;
+
   if (msec < 0) return;
 
-  // let day = parseInt(msec / 1000 / 60 / 60 / 24);
-  // let hr = parseInt((msec / 1000 / 60 / 60) % 24);
-  // day = day;
-  // hr = hr > 9 ? hr : "0" + hr;
   min.value = parseInt((msec / 1000 / 60) % 60);
   sec.value = parseInt((msec / 1000) % 60);
   min.value = min.value > 9 ? min.value : "0" + min.value;
@@ -49,7 +55,6 @@ const countdown = () => {
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <!-- Checkout Login Coupon Accordion Start -->
           <div class="checkoutaccordion" id="checkOutAccordion">
             <div class="card">
               <h3 class="mb-0" style="display: inline-block">
@@ -57,7 +62,6 @@ const countdown = () => {
                   >剩余支付时间（超时自动关闭）</span
                 >
                 <span class="time">{{ min }}分钟 {{ sec }}秒</span>
-                <!-- <span style="color: #000">1111111111</span> -->
               </h3>
             </div>
             <div class="card">
@@ -72,11 +76,8 @@ const countdown = () => {
         </div>
       </div>
       <div style="margin-top: 40px">
-        <!-- <div class="row">
-          <div class="col-lg-12"> -->
         <div class="order-summary-details mt-md-26 mt-sm-26">
           <div class="order-summary-content mb-sm-4">
-            <!-- Order Summary Table -->
             <div class="order-summary-table table-responsive text-center mt-0">
               <table class="table table-bordered">
                 <thead>
@@ -99,11 +100,7 @@ const countdown = () => {
                 </tbody>
               </table>
             </div>
-            <!-- Order Payment Method -->
           </div>
-          <!-- </div> -->
-          <!-- Checkout Login Coupon Accordion End -->
-          <!-- </div> -->
         </div>
       </div>
       <div
@@ -140,17 +137,6 @@ const countdown = () => {
           <a href="#" class="sqr-btn">支付</a>
         </div>
       </div>
-      <!-- <div class="d-block d-md-flex justify-content-between w-30">
-        <div class="cart-update">
-          <a href="#" class="sqr-btn" style="margin-top: 30px">取消订单</a>
-        </div>
-      </div>
-      <div class="d-block d-md-flex justify-content-between">
-        <div class="cart-update ml-auto">
-          <span class="sqr-btn-f" style="margin-top: 30px">合计: ￥1000元</span>
-          <a href="#" class="sqr-btn">支付</a>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
