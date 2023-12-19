@@ -157,6 +157,7 @@ const cancelCollect = async () => {
                   >
                     <v-carousel
                       cycle
+                      interval="3000"
                       height="400"
                       hide-delimiter-background
                       show-arrows="hover"
@@ -254,19 +255,16 @@ const cancelCollect = async () => {
                           <v-slide-group-item
                             v-for="spec in productInfo.productSpec"
                             :key="spec.id"
-                            v-slot="{ toggle, selectedClass }"
+                            v-slot="{ selectedClass }"
                           >
                             <v-card
                               color="grey-lighten-1"
                               :class="['ma-4', selectedClass]"
                               height="50"
                               width="50"
-                              @click="toggle"
+                              @click="changeSpec(spec)"
                             >
-                              <img
-                                :src="spec.specImg"
-                                @click="changeSpec(spec)"
-                              />
+                              <img :src="spec.specImg" />
                             </v-card>
                           </v-slide-group-item>
                         </v-slide-group>
@@ -415,13 +413,6 @@ const cancelCollect = async () => {
 .pointer:hover {
   cursor: pointer;
 }
-
-
-
-
-
-
-
 
 
 
