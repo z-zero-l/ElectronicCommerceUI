@@ -112,11 +112,16 @@ router.beforeEach((to, from, next) => {
     "info",
     "product",
     "category",
+    "categoryProducts",
     "collect",
     "order",
     "cart",
     "search",
     "address",
+    "pay",
+    "paid",
+    "business",
+    "orderInfo",
   ];
   let isLogin = localStorage.getItem("token");
   // 未登录状态；当路由到nextRoute指定页时，跳转至login

@@ -19,6 +19,7 @@ const productInfo = ref({});
 const getProductInfo = async () => {
   service.get("/product/info/" + route.params.id).then((res) => {
     productInfo.value = res.data.data;
+    spec.value = productInfo.value.productSpec[0]
   });
 };
 
@@ -262,7 +263,7 @@ const cancelCollect = async () => {
                               width="50"
                               @click="changeSpec(spec)"
                             >
-                              <img :src="spec.specImg" />
+                              <img :src="spec.specImg"/>
                             </v-card>
                           </v-slide-group-item>
                         </v-slide-group>
@@ -411,6 +412,11 @@ const cancelCollect = async () => {
 .pointer:hover {
   cursor: pointer;
 }
+
+
+
+
+
 
 
 
