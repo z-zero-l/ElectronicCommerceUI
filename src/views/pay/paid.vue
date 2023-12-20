@@ -11,20 +11,19 @@ onMounted(() => {
 
 // 获取订单信息
 const orderDetail = ref({});
-const addressDetail=ref("")
+const addressDetail = ref("")
 const getOrderDetail = () => {
   service
     .get("/order/detail?orderId=" + window.localStorage.getItem("orderId"))
     .then((res) => {
       orderDetail.value = res.data.data;
-      console.log(orderDetail.value);
-      addressDetail.value=codeToName(orderDetail.value.provinceCode,orderDetail.value.cityCode,orderDetail.value.districtCode)+orderDetail.value.address
+      addressDetail.value = codeToName(orderDetail.value.provinceCode, orderDetail.value.cityCode, orderDetail.value.districtCode) + orderDetail.value.address
       countdown();
     });
 };
 
 // 取消理由
-const cancelReason = [
+const cancelReasonList = [
   "不想要了",
   "价格有点贵",
   "收货地址拍错",
@@ -43,7 +42,7 @@ const countdown = () => {
 
   if (msec < 0) return;
 
-  if (orderDetail.countdown < 0) {
+  if (orderDetail.value.countdown < 0) {
     router.push({ path: "/order" });
   }
 
@@ -67,12 +66,23 @@ const pay = () => {
   service
     .post("/order/pay?orderId=" + window.localStorage.getItem("orderId"))
     .then((res) => {
-      console.log(res.data);
       if (res.data.code == 200) {
-        // router.push({ path: "/order" }); 
+        router.push({ path: "/order" });
       }
     });
 };
+
+// 取消订单
+const cancelReason = ref("")
+const cancel = () => {
+  service
+    .post("/order/cancel?orderId=" + window.localStorage.getItem("orderId") + "&&cancelReason=" + cancelReason.value)
+    .then((res) => {
+      if (res.data.code == 200) {
+        router.push({ path: "/order" }); 
+      }
+    });
+}
 </script>
 
 <template>
@@ -83,17 +93,13 @@ const pay = () => {
           <div class="checkoutaccordion" id="checkOutAccordion">
             <div class="card">
               <h3 class="mb-0" style="display: inline-block">
-                <span style="color: #000; font-size: 18px; margin: 30px"
-                  >剩余支付时间（超时自动关闭）</span
-                >
+                <span style="color: #000; font-size: 18px; margin: 30px">剩余支付时间（超时自动关闭）</span>
                 <span class="time">{{ min }}分钟 {{ sec }}秒</span>
               </h3>
             </div>
             <div class="card">
               <h3 class="mb-0" style="display: inline-block">
-                <span style="color: #000; font-size: 18px; margin: 30px"
-                  >地址</span
-                >
+                <span style="color: #000; font-size: 18px; margin: 30px">地址</span>
                 <span style="color: #ff7e67">{{ addressDetail }}</span>
               </h3>
             </div>
@@ -128,16 +134,11 @@ const pay = () => {
           </div>
         </div>
       </div>
-      <div
-        class="d-block d-md-flex w-30"
-        style="display: float; float: left; width: 30%; margin-top: 30px"
-      >
+      <div class="d-block d-md-flex w-30" style="display: float; float: left; width: 30%; margin-top: 30px">
         <div class="cart-update">
-          <a href="#" class="sqr-btn">取消订单</a>
+          <a class="sqr-btn" @click="cancel">取消订单</a>
         </div>
-        <select
-          class="form-select mx-4"
-          style="
+        <select class="form-select mx-4" style="
             height: 42px;
             display: inline-block;
             width: 60%;
@@ -146,21 +147,13 @@ const pay = () => {
             border: 1px solid #cccccc;
             border-radius: 0;
             text-indent: 6px;
-          "
-          aria-label="Default select example"
-        >
-          <option selected>请先选择取消理由</option>
-          <option v-for="item in cancelReason" :value="item">{{ item }}</option>
+          " aria-label="Default select example" v-model="cancelReason">
+          <option v-for="item in cancelReasonList" :value="item">{{ item }}</option>
         </select>
       </div>
-      <div
-        class="d-block d-md-flex justify-content-between"
-        style="display: float; float: right; width: 30%"
-      >
+      <div class="d-block d-md-flex justify-content-between" style="display: float; float: right; width: 30%">
         <div class="cart-update ml-auto">
-          <span class="sqr-btn-f" style="margin-top: 30px"
-            >合计: ￥{{ orderDetail.payment }}元</span
-          >
+          <span class="sqr-btn-f" style="margin-top: 30px">合计: ￥{{ orderDetail.payment }}元</span>
           <a class="sqr-btn text-white" @click="pay()">支付</a>
         </div>
       </div>
