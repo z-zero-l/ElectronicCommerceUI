@@ -19,7 +19,7 @@ const productInfo = ref({});
 const getProductInfo = async () => {
   service.get("/product/info/" + route.params.id).then((res) => {
     productInfo.value = res.data.data;
-    spec.value = productInfo.value.productSpec[0]
+    spec.value = productInfo.value.productSpec[0];
   });
 };
 
@@ -172,21 +172,27 @@ const cancelCollect = async () => {
                 <div class="col-lg-7">
                   <div class="product-details-des pt-md-98 pt-sm-58">
                     <router-link :to="'/business/' + productInfo.businessId">
-                      <h4>{{ productInfo.businessName }}</h4>
+                      <h4 class="fs-5">{{ productInfo.businessName }}</h4>
                     </router-link>
                     <h3 class="pt-3">{{ productInfo.productName }}</h3>
                     <p class="p-0">
                       {{ productInfo.productProfile }}
                     </p>
-                    <p class="p-0">
-                      {{ productInfo.totalSaleAmount }}
-                      人已付款&nbsp;&nbsp;&nbsp;&nbsp;{{
-                        productInfo.collectCount
-                      }}
-                      人已付款
-                    </p>
+                    <div class="pro-review mt-2">
+                      <span
+                        ><a 
+                          >{{
+                            productInfo.totalSaleAmount
+                          }}
+                          人已付款&nbsp;&nbsp;&nbsp;&nbsp;{{
+                            productInfo.collectCount
+                          }}
+                          人已收藏</a
+                        ></span
+                      >
+                    </div>
                     <div
-                      class="quantity-cart-box d-flex align-items-center mb-24 mt-10"
+                      class="quantity-cart-box d-flex align-items-center mb-24 mt-5"
                     >
                       <div class="quantity">
                         <button
@@ -234,7 +240,7 @@ const cancelCollect = async () => {
                     </div>
                     <div class="availability mb-20">
                       <h5>Price:</h5>
-                      <span class="text-danger">￥{{ spec.sellPrice }}</span>
+                      <span class="text-danger">￥{{ spec.sellPrice }}</span>&nbsp;&nbsp;
                       <span style="color: #606060"
                         ><del>{{ spec.listPrice }}</del></span
                       >
@@ -263,7 +269,7 @@ const cancelCollect = async () => {
                               width="50"
                               @click="changeSpec(spec)"
                             >
-                              <img :src="spec.specImg"/>
+                              <img :src="spec.specImg" />
                             </v-card>
                           </v-slide-group-item>
                         </v-slide-group>
@@ -412,6 +418,10 @@ const cancelCollect = async () => {
 .pointer:hover {
   cursor: pointer;
 }
+
+
+
+
 
 
 
