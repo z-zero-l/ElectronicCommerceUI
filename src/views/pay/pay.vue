@@ -79,10 +79,9 @@ const toPay = async () => {
       .then((res) => {
         window.localStorage.setItem("orderId", res.data.data);
         if (res.data.code == 200) {
-          // 延迟1s跳转
           setTimeout(() => {
             router.push({ path: "/paid" });
-          }, 1000);
+          }, 500);
         }
       });
   }
@@ -90,20 +89,14 @@ const toPay = async () => {
 </script>
 
 <template>
-  <v-alert
-    :type="type"
-    variant="tonal"
-    :text="message"
-    style="
+  <v-alert :type="type" variant="tonal" :text="message" style="
       width: 18%;
       position: fixed;
       top: 120px;
       left: 80%;
       z-index: 1;
       min-width: 200px;
-    "
-    :model-value="isShow"
-  ></v-alert>
+    " :model-value="isShow"></v-alert>
   <div class="checkout-page-wrapper pt-120 pb-90 pt-sm-58 pb-sm-54">
     <div class="container">
       <div class="row">
@@ -111,12 +104,8 @@ const toPay = async () => {
           <div class="checkoutaccordion" id="checkOutAccordion">
             <div class="card">
               <h3 class="mb-0" style="display: inline-block">
-                <span style="color: #000; font-size: 18px; margin: 30px"
-                  >地址选择</span
-                >
-                <select
-                  class="form-select my-3"
-                  style="
+                <span style="color: #000; font-size: 18px; margin: 30px">地址选择</span>
+                <select class="form-select my-3" style="
                     height: 49px;
                     display: inline-block;
                     width: 80%;
@@ -124,11 +113,7 @@ const toPay = async () => {
                     background-color: #f7f7f7;
                     border: 1px solid #cccccc;
                     border-radius: 0;
-                  "
-                  aria-label="Default select example"
-                  @change="addressChange"
-                  v-model="addressId"
-                >
+                  " aria-label="Default select example" @change="addressChange" v-model="addressId">
                   <option selected></option>
                   <option :value="address.id" v-for="address in addressList">
                     {{ address.receiver }}&nbsp;&nbsp;{{
@@ -143,10 +128,8 @@ const toPay = async () => {
                     }}{{ address.address }}
                   </option>
                 </select>
-                <router-link to="/address"
-                  ><a href="#" class="ml-5 fs-6" style="color: #ff7e67"
-                    >地址管理<i class="bi bi-arrow-right-short"></i></a
-                ></router-link>
+                <router-link to="/address"><a href="#" class="ml-5 fs-6" style="color: #ff7e67">地址管理<i
+                      class="bi bi-arrow-right-short"></i></a></router-link>
               </h3>
             </div>
           </div>
@@ -187,21 +170,15 @@ const toPay = async () => {
         <div class="tab-pane fade show active" id="dashboad" role="tabpanel">
           <div class="myaccount-content" style="margin-top: 15px">
             <div class="single-input-item" style="margin-top: 0px">
-              <input
-                type="text"
-                id="user_name"
-                placeholder="备注"
-                v-model="list.find((i) => i.cartId == item.cartId).remark"
-              />
+              <input type="text" id="user_name" placeholder="备注"
+                v-model="list.find((i) => i.cartId == item.cartId).remark" />
             </div>
           </div>
         </div>
       </div>
       <div class="d-block d-md-flex justify-content-between">
         <div class="cart-update ml-auto">
-          <span class="sqr-btn-f" style="margin-top: 30px"
-            >合计: ￥{{ totalPrice }}元</span
-          >
+          <span class="sqr-btn-f" style="margin-top: 30px">合计: ￥{{ totalPrice }}元</span>
           <span class="sqr-btn" @click="toPay()">下单</span>
         </div>
       </div>

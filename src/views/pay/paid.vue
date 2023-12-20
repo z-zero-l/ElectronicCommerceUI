@@ -42,10 +42,6 @@ const countdown = () => {
 
   if (msec < 0) return;
 
-  if (orderDetail.value.countdown < 0) {
-    router.push({ path: "/order" });
-  }
-
   min.value = parseInt((msec / 1000 / 60) % 60);
   sec.value = parseInt((msec / 1000) % 60);
   min.value = min.value > 9 ? min.value : "0" + min.value;
@@ -79,7 +75,9 @@ const cancel = () => {
     .post("/order/cancel?orderId=" + window.localStorage.getItem("orderId") + "&&cancelReason=" + cancelReason.value)
     .then((res) => {
       if (res.data.code == 200) {
-        router.push({ path: "/order" }); 
+        setTimeout(() => {
+          router.push({ path: "/order" });
+        }, 500);
       }
     });
 }
