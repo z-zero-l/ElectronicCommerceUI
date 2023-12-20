@@ -170,4 +170,8 @@ const cancelCollect = async (productId) => {
   cursor: pointer;
   color: #ff7e67;
 }
+.product-list-item:hover {
+    border: 1px solid #ff7e67 ;
+  }
+
 </style>
