@@ -152,7 +152,10 @@ const removeCart = async (cartId) => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="item in cartList" :key="item.cartId">
+                  <tr v-if="cartList.length==0">
+                    <td colspan="7" style="height: 100px;">购物车内暂无商品~</td>
+                  </tr>
+                  <tr v-for="item in cartList" :key="item.cartId" v-else>
                     <td>
                       <div class="form-check">
                         <input
