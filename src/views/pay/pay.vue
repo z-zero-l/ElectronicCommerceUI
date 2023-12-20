@@ -88,6 +88,7 @@ const toPay = async () => {
   }
 };
 </script>
+
 <template>
   <v-alert
     :type="type"
@@ -207,4 +208,5 @@ const toPay = async () => {
     </div>
   </div>
 </template>
+
 <style scoped></style>

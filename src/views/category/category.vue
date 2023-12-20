@@ -37,6 +37,7 @@ function getCategorySecondList(parentId) {
   });
 }
 </script>
+
 <template>
   <div class="shop-main-wrapper pt-100 pb-100 pt-sm-58 pb-sm-58">
     <div class="container mt-20">
@@ -110,6 +111,5 @@ function getCategorySecondList(parentId) {
   background-color: #ff7e67;
   color: #fff;
 }
-
 
 </style>

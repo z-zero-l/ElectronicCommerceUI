@@ -35,6 +35,7 @@ function getCity(code) {
   );
 }
 </script>
+
 <template>
   <select
     class="form-select mt-0"
@@ -91,4 +92,5 @@ function getCity(code) {
     </option>
   </select>
 </template>
+
 <style scoped></style>

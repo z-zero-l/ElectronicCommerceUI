@@ -146,5 +146,4 @@ const searchBusiness = async () => {
   border: #ff7e67 solid 1px;
 }
 
-
 </style>

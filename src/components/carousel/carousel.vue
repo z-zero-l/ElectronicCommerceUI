@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps } from 'vue'
+// 组件传参接收
 const props = defineProps({ carouselList: Array })
 </script>
 

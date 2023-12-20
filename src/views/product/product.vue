@@ -419,18 +419,4 @@ const cancelCollect = async () => {
   cursor: pointer;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </style>

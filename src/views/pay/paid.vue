@@ -74,6 +74,7 @@ const pay = () => {
     });
 };
 </script>
+
 <template>
   <div class="checkout-page-wrapper pt-120 pb-90 pt-sm-58 pb-sm-54">
     <div class="container">
@@ -166,4 +167,5 @@ const pay = () => {
     </div>
   </div>
 </template>
+
 <style scoped></style>

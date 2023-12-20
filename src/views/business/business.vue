@@ -22,6 +22,7 @@ const getBusinessInfo = async () => {
     });
 };
 </script>
+
 <template>
   <div class="my-account-wrapper pt-100 pb-100 pt-sm-58 pb-sm-58">
     <div class="container">
@@ -81,7 +82,5 @@ const getBusinessInfo = async () => {
 .all:hover{
   cursor: pointer;
 }
-
-
 
 </style>

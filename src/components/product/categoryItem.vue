@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 // 组件传参接收
 const props = defineProps({ categoryItem: Object });
 </script>

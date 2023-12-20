@@ -35,7 +35,8 @@ const forget = async () => {
         }, 2000);
       }
     });
-};</script>
+};
+</script>
 
 <template>
     <v-alert

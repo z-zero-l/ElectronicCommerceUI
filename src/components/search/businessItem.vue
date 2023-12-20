@@ -1,6 +1,8 @@
 <script setup>
+// 组件传参接收
 const props = defineProps({ business: Object });
 </script>
+
 <template>
   <div class="myaccount-content">
     <div style="display: flex; justify-content: space-between">
@@ -37,4 +39,5 @@ const props = defineProps({ business: Object });
     <p class="saved-message">{{ props.business.businessProfile }}</p>
   </div>
 </template>
+
 <style scoped></style>
