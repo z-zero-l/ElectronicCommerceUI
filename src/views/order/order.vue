@@ -66,9 +66,10 @@ const cancelOrder = async () => {
       cancelId.value = 0
       if (res.data.code == 200) {
         message.value = "取消订单成功";
-        isShow.value = true;
+        isShow.value = true
+        isCancel.value = false;
         setTimeout(() => {
-          isShow.value = false;
+          isShow.value = false
           getOrderList(0);
         }, 1000);
       }
@@ -283,7 +284,7 @@ const commentOrder = async () => {
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue-darken-1" type="submit" variant="text" @click="changeVisible()"> 关闭 </v-btn>
+        <v-btn color="blue-darken-1" type="submit" variant="text" @click="changeCancel()"> 关闭 </v-btn>
         <v-btn color="red-darken-1" type="submit" variant="text" @click="cancelOrder()"> 提交 </v-btn>
       </v-card-actions>
     </v-card>
